@@ -1,4 +1,4 @@
-package com.hackday.sns_timeline.domain;
+package com.hackday.timeline.subscription.domain;
 
 import java.util.Date;
 
@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.hackday.timeline.user.domain.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.EqualsAndHashCode;
@@ -35,7 +36,7 @@ public class Subscription {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_no")
-	User user;
+    User user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "subs_user_no")

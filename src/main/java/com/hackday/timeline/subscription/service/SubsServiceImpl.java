@@ -1,9 +1,9 @@
-package com.hackday.sns_timeline.service;
+package com.hackday.timeline.subscription.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hackday.sns_timeline.repository.SubsRepository;
+import com.hackday.timeline.subscription.repository.SubsRepository;
 
 @Service
 public class SubsServiceImpl implements SubsService {

@@ -1,8 +1,8 @@
-package com.hackday.sns_timeline.repository;
+package com.hackday.timeline.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.hackday.sns_timeline.domain.User;
+import com.hackday.timeline.user.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

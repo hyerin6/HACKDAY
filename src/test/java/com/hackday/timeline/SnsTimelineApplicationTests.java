@@ -1,4 +1,4 @@
-package com.hackday.sns_timeline;
+package com.hackday.timeline;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

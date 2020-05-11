@@ -1,4 +1,4 @@
-package com.hackday.sns_timeline.domain;
+package com.hackday.timeline.user.domain;
 
 import java.util.Date;
 
@@ -45,6 +45,7 @@ public class User {
 
 	@CreationTimestamp
 	Date regDate;
+
 	@UpdateTimestamp
 	Date upd_date;
 }
