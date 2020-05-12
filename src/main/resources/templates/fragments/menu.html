@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	<div align="center" th:fragment="menu">
+		<table>
+			<tr>
+				<td width="80"><a href="../home.html" th:href="@{/}"
+					th:text="#{header.home}">홈</a></td>
+				<th:block sec:authorize="!isAuthenticated()">
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+				</th:block>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
