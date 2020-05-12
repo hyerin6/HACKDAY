@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
 	@GetMapping("/")
 	public String home(Locale locale, Model model) {
 		Date date = new Date();
@@ -21,4 +22,5 @@ public class HomeController {
 
 		return "home";
 	}
+
 }

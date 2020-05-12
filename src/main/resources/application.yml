@@ -1,0 +1,62 @@
+spring:
+  profiles:
+    active: hyerin-local
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+
+--- #Production
+spring:
+  profiles: prod
+
+
+--- #hyerin-local
+spring:
+  profiles: hyerin-local
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    generate-ddl: true
+    database: mysql
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        storage_engine: innodb
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: timeline
+    password: timeline123
+
+
+--- #daehwan-local
+spring:
+  profiles: daehwan-local
+
+  jpa:
+    database: mysql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      show_sql: true
+      format_sql: true
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sns_dev
+    password: 1234
+
+logging:
+  level:
+    org:
+      hibernate: info
