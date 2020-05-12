@@ -1,4 +1,4 @@
-package com.hackday.sns_timeline.controller;
+package com.hackday.timeline.home.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
