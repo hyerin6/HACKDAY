@@ -1,4 +1,4 @@
-package com.hackday.timeline.config;
+package com.hackday.timeline.config.security;
 
 import javax.sql.DataSource;
 
@@ -32,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+
+
 		http.formLogin()
 			.loginPage("/auth/login")
 			.loginProcessingUrl("/login")
