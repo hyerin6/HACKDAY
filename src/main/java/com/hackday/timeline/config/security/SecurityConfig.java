@@ -1,4 +1,4 @@
-package com.hackday.timeline.config;
+package com.hackday.timeline.config.security;
 
 import javax.sql.DataSource;
 
@@ -32,6 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		http
+			.csrf()
+			.ignoringAntMatchers("/api/**");
+
 		http.formLogin()
 			.loginPage("/auth/login")
 			.loginProcessingUrl("/login")
@@ -54,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.tokenRepository(createJDBCRepository())
 			//쿠기 유효시간 지정
 			.tokenValiditySeconds(60 * 60 * 24);
+
 	}
 
 	//CustomUserDetailsService 빈의 인증 제공자에 지정
