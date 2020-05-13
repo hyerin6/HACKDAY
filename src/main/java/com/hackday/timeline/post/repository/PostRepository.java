@@ -11,13 +11,15 @@ import com.hackday.timeline.post.domain.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-	//최초로 조회할 때
+	public Post findOneById(Long id);
+
+	// 최초로 조회할 때
 	@Query(nativeQuery = true,
 		value = "SELECT * FROM Post WHERE user_id = :userId " +
 			"ORDER BY reg_date DESC LIMIT 5")
 	public List<Post> findTop5ByUserIdOrderByRegDateDesc(Long userId);
 
-	//최초가 아닌 경우
+	// 최초가 아닌 경우
 	@Query(nativeQuery = true,
 		value = "SELECT * FROM Post " +
 			"WHERE user_id = :userId AND id < :id " +
@@ -32,6 +34,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	// 특정 게시글 삭제
 	// @Query(nativeQuery = true,
 	// 	value = "DELETE FROM Post WHERE id = :id AND user_id : userId")
-	public void deleteByIdAndUser_UserId(Long id, Long userId);
+	public void deleteByIdAndUser_UserNo(Long id, Long userId);
 
 }

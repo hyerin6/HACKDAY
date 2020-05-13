@@ -1,6 +1,5 @@
 package com.hackday.timeline.post.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +37,10 @@ public class PostAjaxController {
 		Long userId = member.getUserNo();
 
 		log.info("lastIdOfPosts = " + getPostsRequest.getLastIdOfPosts());
+
 		List<Post> posts = postService.getPosts(getPostsRequest.getLastIdOfPosts(), userId);
 		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
-
-
-
-		log.info("Posts = " + Arrays.toString(posts.toArray()));
 
 		PostsResponse result = PostsResponse.builder()
 			.posts(posts)
@@ -68,13 +64,13 @@ public class PostAjaxController {
 	// }
 
 	@Getter
-	static class GetPostsRequest{
+	static class GetPostsRequest {
 		private Long lastIdOfPosts;
 	}
 
 	@Getter
 	@Builder
-	static class PostsResponse{
+	static class PostsResponse {
 		private List<Post> posts;
 		private Long lastIdOfPosts;
 	}
