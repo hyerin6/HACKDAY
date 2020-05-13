@@ -3,7 +3,7 @@ package com.hackday.timeline.member.service;
 import java.util.List;
 
 import com.hackday.timeline.member.domain.Member;
-import com.hackday.timeline.subscription.vo.MemberVO;
+import com.hackday.timeline.member.vo.MemberVO;
 
 public interface MemberService {
 

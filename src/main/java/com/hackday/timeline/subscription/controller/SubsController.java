@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
@@ -24,25 +25,25 @@ public class SubsController {
 	@Autowired
 	SubsService service;
 
-	@PostMapping("/register")
-	public String register(Member writer, Authentication authentication, RedirectAttributes rttr)
+	@GetMapping("/register")
+	public ModelAndView register(Long subsUserNo, Authentication authentication, RedirectAttributes rttr)
 		throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Subscription subscription = new Subscription();
 		subscription.setMember(member);
-		subscription.setMember(writer);
 
-		service.register(subscription);
+		service.register(subscription, subsUserNo);
 
 		rttr.addFlashAttribute("msg", "REGISTER");
 
-		return "redirect:/subs/list";
-
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/user/list");
+		return mv;
 	}
 
 	@GetMapping("/read")
-	public String read(Model model, Authentication authentication) throws Exception {
+	public ModelAndView read(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 
@@ -51,15 +52,19 @@ public class SubsController {
 		model.addAttribute("memberSubsList", memberSubsList);
 		model.addAttribute("subsMemberList", subsMemberList);
 
-		return "subs/list";
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/subs/read");
+		return mv;
 	}
 
 	@PostMapping("/remove")
-	public String remove(Long subsNo, RedirectAttributes rttr) throws Exception {
+	public ModelAndView remove(Long subsNo, RedirectAttributes rttr) throws Exception {
 		rttr.addFlashAttribute("msg", "REMOVE");
 		service.remove(subsNo);
 
-		return "redirect:/subs/list";
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/user/list");
+		return mv;
 	}
 
 }

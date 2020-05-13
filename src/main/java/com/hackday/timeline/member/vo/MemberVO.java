@@ -1,11 +1,13 @@
-package com.hackday.timeline.subscription.vo;
+package com.hackday.timeline.member.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class MemberVO {
 
@@ -15,5 +17,5 @@ public class MemberVO {
 
 	String userName;
 
-	boolean isSubs = false;
+	boolean subsOk;
 }

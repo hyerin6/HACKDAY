@@ -2,7 +2,6 @@ package com.hackday.timeline.subscription.domain;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,11 +34,11 @@ public class Subscription {
 	@CreationTimestamp
 	Date regDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "user_no")
 	Member member;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "subs_user_no")
 	Member subsMember;
 

@@ -1,5 +1,6 @@
 package com.hackday.timeline.member.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.repository.MemberRepository;
+import com.hackday.timeline.member.vo.MemberVO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
-import com.hackday.timeline.subscription.vo.MemberVO;
+
+import lombok.extern.java.Log;
 
 @Service
+@Log
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
@@ -52,10 +56,17 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> listAll(Long userNo) throws Exception {
 		List<Member> memberList = repository.findAll();
 		List<Object[]> valueArray = subsRepository.memberSubsList(userNo);
+
+		for (Object[] list : valueArray) {
+			log.info(list[0] + " " + list[1] + " " + list[2]);
+		}
 		List<MemberVO> voList = new ArrayList<>();
 		Map<Long, Integer> map = new HashMap<>();
+
 		for (Object[] array : valueArray) {
-			map.put((Long)array[2], 0);
+			Integer temp = ((BigInteger)array[1]).intValue();
+			Long no = temp.longValue();
+			map.put(no, 0);
 		}
 
 		for (Member m : memberList) {

@@ -8,7 +8,7 @@ import com.hackday.timeline.subscription.vo.SubsVO;
 
 public interface SubsService {
 
-	public void register(Subscription subscription) throws Exception;
+	public void register(Subscription subscription, Long subsUserNo) throws Exception;
 
 	public void remove(Long subsNo) throws Exception;
 
