@@ -49,8 +49,10 @@
                         <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
                         <div class="timeline-body block">
                             <div class="timeline-header">
-                                <span class="username"><a href="javascript:;">
-                                    <!--<sec:authentication property="user.name" />--> hyerin </a>
+                                <span class="username">
+                                    <a href="/users/${user.userName}" class="profile-link">
+                                        ${user.userName}
+                                    </a>
                                 </span>
                                 <span class="date pull-right text-muted">${post.regDate}</span>
                             </div>
@@ -91,21 +93,18 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var lastIdOfPosts = <c:out value="${lastIdOfPosts}" />;
-    var minIdOfPosts = 1;
+    var minIdOfPosts = <c:out value="${minIdOfPosts}" />;
     var isLoading = false;
 
     $(window).scroll(function() {
         var window_height = window.innerHeight; // 실제 화면 높이
-        console.log("실제화면 높이 - " + window_height);
-        console.log("$(document).height() - " + $(document).height());
-        console.log("$(window).scrollTop() - " + $(window).scrollTop());
 
-        if($(window).scrollTop() > 0) { // 스크롤을 내리는 중일 때 $(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts
+        if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) { // 스크롤을 내리는 중일 때
             if ($(window).scrollTop() == $(document).height() - window_height) {
                 isLoading = true; // 로딩 시작
                 $.ajax({
                     type: 'POST',
-                    url: '/getPosts',
+                    url: '/api/posts',
                     headers: {
                         "Content-Type": "application/json",
                         "X-HTTP-Method-Override": "POST"
@@ -125,16 +124,18 @@
                                     "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp</a></div>\n" +
                                     "<div class=\"timeline-body block\">\n" +
                                     "<div class=\"timeline-header\">\n" +
-                                    "<span class=\"username\"><a href=\"javascript:;\">\n" +
-                                    "<!--<sec:authentication property=\"user.name\" />--> hyerin </a>\n" +
+                                    "<span class=\"username\">\n" +
+                                    "<a href=\"/users/" + "${user.userName}" + "\" class=\"profile-link\">\n" +
+                                    "${user.userName}\n" +
+                                    "</a>\n" +
                                     "</span>\n" +
-                                    "<span class=\"date pull-right text-muted\">" + "${post.regDate}" + "</span>\n" +
+                                    "<span class=\"date pull-right text-muted\">"  + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +
                                     "<div class=\"timeline-content\">\n" +
-                                    "<img class=\"max-small\" src=\"" + "${path}" + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
+                                    "<img class=\"max-small\" src=\"" + data.posts[i].path + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
                                     "</div><br/>\n" +
                                     "<div class=\"timeline-content\">\n" +
-                                    "<p class=\"post\">" + "${post.content}" + "</p>\n" +
+                                    "<p class=\"post\">" + data.posts[i].content + "</p>\n" +
                                     "</div>\n" +
                                     "<div class=\"timeline-footer\"></div>\n" +
                                     "<div>\n" +

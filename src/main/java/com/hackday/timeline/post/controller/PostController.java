@@ -3,6 +3,7 @@ package com.hackday.timeline.post.controller;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
+import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.post.domain.Post;
 import com.hackday.timeline.post.dto.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
@@ -35,21 +37,23 @@ public class PostController {
 	@GetMapping()
 	public String myBoard(Authentication authentication, Model model) {
 		// 로그인한 유저 정보
-		// CustomUser customUser = (CustomUser)authentication.getPrincipal();
-		// Member member = customUser.getMember();
-		// Long userId = member.getUserNo();
-		//
-		// // posts 조회
-		// List<Post> posts = postService.getPosts(null, userId);
-		//
-		// Long lastIdOfPosts = posts.isEmpty() ?
-		// 	null : posts.get(posts.size() - 1).getId();
-		//
-		// // view 에서 필요한 정보 add
-		 model.addAttribute("insertPostDto", new InsertPostDto());
-		// model.addAttribute("posts", posts);
-		// model.addAttribute("lastIdOfPosts", lastIdOfPosts);
-		// model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
+		CustomUser customUser = (CustomUser)authentication.getPrincipal();
+		Member member = customUser.getMember();
+		Long userId = member.getUserNo();
+		log.info("get myBoard userId = " + userId);
+
+		// posts 조회
+		List<Post> posts = postService.getPosts(null, userId);
+
+		Long lastIdOfPosts = posts.isEmpty() ?
+			null : posts.get(posts.size() - 1).getId();
+
+		// view 에서 필요한 정보 add
+		model.addAttribute("insertPostDto", new InsertPostDto());
+		model.addAttribute("posts", posts);
+		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
+		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
+		model.addAttribute("user", member);
 
 		return "posts/myBoard";
 	}
