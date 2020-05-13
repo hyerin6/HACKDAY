@@ -1,5 +1,7 @@
 package com.hackday.timeline.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,13 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.service.MemberService;
+import com.hackday.timeline.subscription.vo.MemberVO;
 
 @Controller
 @RequestMapping("/user")
 public class MemberController {
 
 	@Autowired
-	MemberService service;
+	MemberService memberService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -37,12 +40,23 @@ public class MemberController {
 		}
 		String inputPassword = member.getUserPw();
 		member.setUserPw(passwordEncoder.encode(inputPassword));
-		service.register(member);
+		memberService.register(member);
 
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		rttr.addFlashAttribute("userName", member.getUserName());
 
 		return "redirect:/";
+	}
+
+	//유저 전체
+	@GetMapping("/list")
+	public String list(Model model, Authentication authentication) throws Exception {
+		CustomUser customUser = (CustomUser)authentication.getPrincipal();
+		Member member = customUser.getMember();
+		Long userNo = member.getUserNo();
+		List<MemberVO> memberList = memberService.listAll(userNo);
+		model.addAttribute("memberList", memberList);
+		return "list";
 	}
 
 	// 상세 화면
@@ -51,13 +65,13 @@ public class MemberController {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userNo = member.getUserNo();
-		model.addAttribute(service.read(userNo));
+		model.addAttribute(memberService.read(userNo));
 	}
 
 	// 삭제 처리
 	@PostMapping("/remove")
 	public String remove(Long userNo, RedirectAttributes rttr) throws Exception {
-		service.remove(userNo);
+		memberService.remove(userNo);
 		rttr.addFlashAttribute("msg", "REMOVE");
 
 		return "redirect:/";
@@ -66,13 +80,13 @@ public class MemberController {
 	// 수정 화면
 	@GetMapping("/modify")
 	public void modifyForm(Long userNo, Model model) throws Exception {
-		model.addAttribute(service.read(userNo));
+		model.addAttribute(memberService.read(userNo));
 	}
 
 	// 수정 처리
 	@PostMapping("/modify")
 	public String modify(Member member, RedirectAttributes rttr) throws Exception {
-		service.modify(member);
+		memberService.modify(member);
 		rttr.addFlashAttribute("msg", "MODIFY");
 		return "redirect:/";
 	}

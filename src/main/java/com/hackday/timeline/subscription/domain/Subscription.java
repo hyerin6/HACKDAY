@@ -37,10 +37,10 @@ public class Subscription {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_no")
-    Member user;
+	Member member;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "subs_user_no")
-	Member subsUser;
+	Member subsMember;
 
 }

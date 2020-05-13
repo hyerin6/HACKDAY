@@ -8,4 +8,5 @@ import com.hackday.timeline.member.domain.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	public List<Member> findByUserId(String username);
+
 }
