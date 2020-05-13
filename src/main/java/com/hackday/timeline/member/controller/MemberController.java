@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
@@ -27,14 +28,23 @@ public class MemberController {
 	PasswordEncoder passwordEncoder;
 
 	@GetMapping("/register")
-	public void registerForm(Member member, Model model) throws Exception {}
+	public ModelAndView registerForm(Member member, Model model) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		model.addAttribute("member", new Member());
+		mv.setViewName("thymeleaf/user/register");
+		return mv;
+	}
 
 	@PostMapping("/register")
-	public String register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
+	public ModelAndView register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
 		throws Exception {
+		ModelAndView mv = new ModelAndView();;
+
 		if (result.hasErrors()) {
-			return "user/register";
+			mv.setViewName("thymeleaf/user/register");
+			return mv;
 		}
+
 		String inputPassword = member.getUserPw();
 		member.setUserPw(passwordEncoder.encode(inputPassword));
 		service.register(member);
@@ -42,7 +52,8 @@ public class MemberController {
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		rttr.addFlashAttribute("userName", member.getUserName());
 
-		return "redirect:/";
+		mv.setViewName("thymeleaf/home");
+		return mv;
 	}
 
 	// 상세 화면
@@ -60,7 +71,7 @@ public class MemberController {
 		service.remove(userNo);
 		rttr.addFlashAttribute("msg", "REMOVE");
 
-		return "redirect:/";
+		return "redirect:thymeleaf/";
 	}
 
 	// 수정 화면
@@ -74,6 +85,7 @@ public class MemberController {
 	public String modify(Member member, RedirectAttributes rttr) throws Exception {
 		service.modify(member);
 		rttr.addFlashAttribute("msg", "MODIFY");
-		return "redirect:/";
+		return "redirect:thymeleaf/";
 	}
+
 }

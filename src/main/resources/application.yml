@@ -1,14 +1,24 @@
 spring:
   profiles:
     active: hyerin-local
+
+  mvc:
+    view:
+      prefix: /jsp/
+      suffix: .jsp
+
+  #JSP와 같이 사용할 경우 뷰 구분을 위해 컨트롤러가 뷰 이름을 반환할때 thymeleaf/ 로 시작하면 타임리프로 처리하도록 view-names 지정
   thymeleaf:
-    prefix: classpath:templates/
+    view-names: thymeleaf/*
+    prefix: classpath:/templates/
     suffix: .html
 
 --- #Production
 spring:
   profiles: prod
 
+  thymeleaf:
+    cache: true
 
 --- #hyerin-local
 spring:
@@ -26,7 +36,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         storage_engine: innodb
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -36,6 +46,9 @@ spring:
     username: timeline
     password: timeline123
 
+  thymeleaf:
+    cache: false
+    check-template-location: true
 
 --- #daehwan-local
 spring:
@@ -56,7 +69,12 @@ spring:
     username: sns_dev
     password: 1234
 
+  thymeleaf:
+    cache: false
+    check-template-location: true
+
 logging:
   level:
     org:
       hibernate: info
+
