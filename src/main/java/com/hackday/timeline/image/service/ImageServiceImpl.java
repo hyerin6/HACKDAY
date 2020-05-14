@@ -1,6 +1,5 @@
 package com.hackday.timeline.image.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.image.domain.Image;

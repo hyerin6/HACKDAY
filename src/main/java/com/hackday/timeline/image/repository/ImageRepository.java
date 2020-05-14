@@ -8,13 +8,10 @@ import com.hackday.timeline.image.domain.Image;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-	// 이미지 저장
-	public Image save(Image images);
-
-	// 이미지 조회 - one
 	public Image findOneById(Long id);
 
-	// 이미지 삭제
+	public Image save(Image images);
+
 	public void deleteById(Long id);
 
 }
