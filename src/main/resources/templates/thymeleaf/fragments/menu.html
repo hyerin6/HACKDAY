@@ -6,10 +6,12 @@
 		<table>
 			<tr>
 				<td width="80"><a href="../home.html" th:href="@{/}"
-								  th:text="#{header.home}">홈</a></td>
+					th:text="#{header.home}">홈</a></td>
 				<th:block sec:authorize="!isAuthenticated()">
 				</th:block>
 				<th:block sec:authorize="isAuthenticated()">
+					<td width="120"><a href="../user/list.html"
+						th:href="@{/user/list}" th:text="#{menu.user}">유저 목록</a></td>
 				</th:block>
 			</tr>
 		</table>
