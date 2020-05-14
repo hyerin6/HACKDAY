@@ -1,6 +1,5 @@
 package com.hackday.timeline.post.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.post.domain.Post;
+import com.hackday.timeline.post.dto.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
 
 import lombok.Builder;
@@ -26,7 +26,6 @@ public class PostAjaxController {
 
 	private PostService postService;
 
-	@Autowired
 	public PostAjaxController(PostService postService) {
 		this.postService = postService;
 	}
@@ -38,13 +37,10 @@ public class PostAjaxController {
 		Long userId = member.getUserNo();
 
 		log.info("lastIdOfPosts = " + getPostsRequest.getLastIdOfPosts());
+
 		List<Post> posts = postService.getPosts(getPostsRequest.getLastIdOfPosts(), userId);
 		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
-
-
-
-		log.info("Posts = " + Arrays.toString(posts.toArray()));
 
 		PostsResponse result = PostsResponse.builder()
 			.posts(posts)
@@ -53,28 +49,31 @@ public class PostAjaxController {
 		return result;
 	}
 
-	// @ResponseBody
-	// @RequestMapping(value="/friendPosts", method = RequestMethod.POST)
-	// public PostsResponse getFriendPosts(@RequestBody GetPostsRequest getPostsRequest, Long userId) {
-	// 	List<Post> posts = postService.getPosts(getPostsRequest.getLastIdOfPosts(), userId);
-	// 	Long lastIdOfPosts = posts.isEmpty() ?
-	// 		null : posts.get(posts.size() - 1).getId();
-	//
-	// 	PostsResponse result = PostsResponse.builder()
-	// 		.posts(posts)
-	// 		.lastIdOfPosts(lastIdOfPosts)
-	// 		.build();
-	// 	return result;
-	// }
+	@RequestMapping(value = "/api/posts", method=RequestMethod.PATCH)
+	public void modifyPost(@RequestBody ModifyPostRequest modifyPostRequest, Authentication authentication) {
+		CustomUser customUser = (CustomUser)authentication.getPrincipal();
+		Member member = customUser.getMember();
+
+		InsertPostDto insertPostDto = new InsertPostDto();
+		insertPostDto.setContent(modifyPostRequest.getContent());
+
+		postService.modifyPost(insertPostDto, modifyPostRequest.getId(), member);
+	}
 
 	@Getter
-	static class GetPostsRequest{
+	static class GetPostsRequest {
 		private Long lastIdOfPosts;
 	}
 
 	@Getter
+	static class ModifyPostRequest{
+		private Long id;
+		private String content;
+	}
+
+	@Getter
 	@Builder
-	static class PostsResponse{
+	static class PostsResponse {
 		private List<Post> posts;
 		private Long lastIdOfPosts;
 	}
