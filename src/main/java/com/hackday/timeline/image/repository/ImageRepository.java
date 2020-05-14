@@ -8,4 +8,10 @@ import com.hackday.timeline.image.domain.Image;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
+	public Image findOneById(Long id);
+
+	public Image save(Image images);
+
+	public void deleteById(Long id);
+
 }
