@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +20,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
+@ApiModel(description = "게시글에 첨부되는 이미지 모델")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "image")
@@ -27,8 +30,10 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
+	@ApiModelProperty(value = "이미지가 저장된 주소")
 	private String filePath;
 
+	@ApiModelProperty(value = "파일 이름 중복 방지를 위한 Random UUID")
 	private String fileName;
 
 	public Image(String filePath, String fileName){

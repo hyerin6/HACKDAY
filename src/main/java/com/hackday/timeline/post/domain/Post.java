@@ -18,6 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.hackday.timeline.image.domain.Image;
 import com.hackday.timeline.member.domain.Member;
+import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +28,11 @@ import lombok.Setter;
 
 @Entity
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ApiModel(description = "게시글")
 @Table(name = "post")
 public class Post {
 
