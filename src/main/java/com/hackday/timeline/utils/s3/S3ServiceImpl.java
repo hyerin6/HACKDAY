@@ -37,7 +37,7 @@ public class S3ServiceImpl implements S3Service{
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @PostConstruct // 객체가 생성된 후 별도의 초기화 작업을 위해 실행하는 메소드를 선언한다.
+    @PostConstruct
     @Override
     public void setS3Client() {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);

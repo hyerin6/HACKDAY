@@ -27,7 +27,6 @@ public class PostServiceImpl implements PostService {
 
 	private S3Service s3Service;
 
-	@Autowired
 	public PostServiceImpl(PostRepository postRepository, ImageService imageService, S3Service s3Service) {
 		this.postRepository = postRepository;
 		this.imageService = imageService;
@@ -38,14 +37,10 @@ public class PostServiceImpl implements PostService {
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
-		if(insertPostDto.getImage() != null) {
-			// fileName 중복 방지를 위한 random UUID 생성
+		if(!insertPostDto.getImage().isEmpty()) {
 			String randomUUID = UUID.randomUUID().toString();
-			// aws s3 이미지 저장
 			String path = s3Service.postImageUpload(insertPostDto.getImage(), randomUUID);
-			// Image 테이블에 저장
 			Image image = imageService.saveImage(path, randomUUID);
-			// post에 image 저장
 			post.setImage(image);
 		}
 
@@ -68,7 +63,11 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
-		imageService.deleteImage(post.getImage().getId());
+
+		if(post.getImage() != null) {
+			imageService.deleteImage(post.getImage().getId());
+		}
+
 		postRepository.deleteByIdAndUser_UserNo(postId, userId);
 	}
 

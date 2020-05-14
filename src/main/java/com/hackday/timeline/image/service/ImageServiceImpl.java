@@ -14,7 +14,6 @@ public class ImageServiceImpl implements ImageService {
 
 	private S3Service s3Service;
 
-	@Autowired
 	public ImageServiceImpl(ImageRepository imageRepository, S3Service s3Service){
 		this.imageRepository = imageRepository;
 		this.s3Service = s3Service;

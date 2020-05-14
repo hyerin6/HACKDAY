@@ -13,27 +13,21 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	public Post findOneById(Long id);
 
-	// 최초로 조회할 때
 	@Query(nativeQuery = true,
 		value = "SELECT * FROM Post WHERE user_id = :userId " +
 			"ORDER BY reg_date DESC LIMIT 5")
 	public List<Post> findTop5ByUserIdOrderByRegDateDesc(Long userId);
 
-	// 최초가 아닌 경우
 	@Query(nativeQuery = true,
 		value = "SELECT * FROM Post " +
 			"WHERE user_id = :userId AND id < :id " +
 			"ORDER BY id DESC, reg_date DESC LIMIT 5")
 	public List<Post> findTop5ByUserIdAndIdLessThanOrderByIdDescRegDateDesc(Long userId, Long id);
 
-	// lastId 조회
 	@Query(nativeQuery = true,
 		value = "SELECT MIN(id) FROM Post WHERE user_id = :userId")
 	public Long findMinIdByUserId(Long userId);
 
-	// 특정 게시글 삭제
-	// @Query(nativeQuery = true,
-	// 	value = "DELETE FROM Post WHERE id = :id AND user_id : userId")
 	public void deleteByIdAndUser_UserNo(Long id, Long userId);
 
 }

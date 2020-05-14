@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
@@ -69,19 +67,9 @@ public class PostController {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 
+		log.info("image == " + insertPostDto.getImage().isEmpty());
+
 		postService.insertPost(insertPostDto, member);
-
-		return "redirect:/posts";
-	}
-
-	@RequestMapping(value = "/posts/{id}", method= {RequestMethod.PATCH, RequestMethod.POST})
-	public String modifyPost(@PathVariable("id") Long postId, @ModelAttribute InsertPostDto insertPostDto,
-		Authentication authentication, Model model) {
-
-		CustomUser customUser = (CustomUser)authentication.getPrincipal();
-		Member member = customUser.getMember();
-
-		postService.modifyPost(insertPostDto, postId, member);
 
 		return "redirect:/posts";
 	}
