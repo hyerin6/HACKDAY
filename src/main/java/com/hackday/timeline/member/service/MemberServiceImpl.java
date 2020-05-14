@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.member.domain.Member;
+import com.hackday.timeline.member.domain.MemberAuth;
 import com.hackday.timeline.member.repository.MemberRepository;
 import com.hackday.timeline.member.vo.MemberVO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
@@ -31,6 +32,10 @@ public class MemberServiceImpl implements MemberService {
 		memberEntity.setUserId(member.getUserId());
 		memberEntity.setUserPw(member.getUserPw());
 		memberEntity.setUserName(member.getUserName());
+
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setAuth("ROLE_MEMBER");
+		memberEntity.addAuth(memberAuth);
 
 		memberRepository.save(memberEntity);
 	}

@@ -28,6 +28,7 @@ public class SubsController {
 		this.service = service;
 	}
 
+	//구독 등록
 	@GetMapping("/register")
 	public ModelAndView register(Long subsUserNo, Authentication authentication, RedirectAttributes rttr)
 		throws Exception {
@@ -45,6 +46,7 @@ public class SubsController {
 		return mv;
 	}
 
+	//구독 리스트
 	@GetMapping("/list")
 	public ModelAndView list(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -59,6 +61,7 @@ public class SubsController {
 		return mv;
 	}
 
+	//구독 취소
 	@GetMapping("/remove")
 	public ModelAndView remove(Long subsNo, String view, RedirectAttributes rttr) throws Exception {
 		rttr.addFlashAttribute("msg", "REMOVE");

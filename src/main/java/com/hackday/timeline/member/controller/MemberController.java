@@ -33,6 +33,7 @@ public class MemberController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	//회원가입 페이지
 	@GetMapping("/register")
 	public ModelAndView registerForm(Member member, Model model) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -41,6 +42,7 @@ public class MemberController {
 		return mv;
 	}
 
+	//가입 요청
 	@PostMapping("/register")
 	public ModelAndView register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
 		throws Exception {

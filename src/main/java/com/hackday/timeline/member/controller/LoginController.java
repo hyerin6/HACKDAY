@@ -22,7 +22,6 @@ public class LoginController {
 			return mv;
 		}
 		if (logout != null) {
-			model.addAttribute("logout", "Logout!!!");
 			mv.setViewName("thymeleaf/home");
 			return mv;
 		}

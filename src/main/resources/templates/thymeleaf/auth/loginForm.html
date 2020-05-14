@@ -4,6 +4,8 @@
 <head>
 <title>Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
 	<div layout:fragment="content">
@@ -27,7 +29,7 @@
 						th:text="#{auth.rememberMe}">로그인 상태 유지</span></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><button
+					<td colspan="2" align="center"><button class="btn btn-info" type=submit
 							th:text="#{action.login}">로그인</button></td>
 				</tr>
 			</table>

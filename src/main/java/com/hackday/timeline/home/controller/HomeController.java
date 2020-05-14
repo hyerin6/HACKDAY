@@ -7,20 +7,24 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.hackday.timeline.member.domain.Member;
 
 @Controller
 public class HomeController {
 
 	@GetMapping("/")
-	public String home(Locale locale, Model model) {
+	public ModelAndView home(Locale locale, Model model) {
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
 		model.addAttribute("serverTime", formattedDate);
-
-		return "thymeleaf/home";
+		ModelAndView mv = new ModelAndView();
+		model.addAttribute("member", new Member());
+		mv.setViewName("thymeleaf/home");
+		return mv;
 	}
 
 }

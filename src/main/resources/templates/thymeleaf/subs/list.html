@@ -5,50 +5,110 @@
 <head>
 <title>User</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div layout:fragment="content">
-	
-		<h2 th:text="#{subs.header.fromList}">내가 구독한 유저</h2>
-		<table border="1">
-			<tr>
-				<th align="center" width="80" th:text="#{user.userId}">아이디</th>
-				<th align="center" width="100" th:text="#{user.userName}">사용자명</th>
-				<th:block th:if="${!#lists.isEmpty(memberSubsList)}">
-					<th></th>
-				</th:block>
-			</tr>
-			<tr th:if="${#lists.isEmpty(memberSubsList)}">
-				<td colspan="2" th:text="#{common.listEmpty}">List is empty.</td>
-			</tr>
+	<div layout:fragment="content" class="container">
+		<div class="row">
+			<div class="col-sm">
+				<div class="container mt-3">
+					<h2 th:text="#{subs.header.fromList}">내가 구독한 유저</h2>
+					<input class="form-control" id="myInput" type="text"
+						placeholder="Search.."> <br>
+					<table class="table table-bordered">
+						<thead align="center">
+							<tr>
+								<th width=40% th:text="#{user.userId}">아이디</th>
+								<th width=40% th:text="#{user.userName}">사용자명</th>
+								<th:block th:if="${!#lists.isEmpty(memberSubsList)}">
+									<th width=20%></th>
+								</th:block>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							<tr th:if="${#lists.isEmpty(memberSubsList)}">
+								<td colspan="2" th:text="#{common.listEmpty}">List is
+									empty.</td>
+							</tr>
 
-			<tr th:each="ms : ${memberSubsList}">
-				<td align="center" th:text="${ms.userId}">${member.userId}</td>
-				<td align="center" th:text="${ms.userName}">${member.userName}</td>
-				<td><a
-					th:href="@{/subs/remove?subsNo={subsNo}&view=subs(subsNo=${ms.subsNo})}">
-						<button class="btn btn-success" id="subsBtn"
-							th:text="#{subs.action.remove}">구독 취소</button>
-				</a></td>
-			</tr>
-		</table>
-		<h2 th:text="#{subs.header.toList}">나를 구독한 유저</h2>
-		<table border="1">
-			<tr>
-				<th align="center" width="80" th:text="#{user.userId}">아이디</th>
-				<th align="center" width="100" th:text="#{user.userName}">사용자명</th>
-			</tr>
-			<tr th:if="${#lists.isEmpty(subsMemberList)}">
-				<td colspan="2" th:text="#{common.listEmpty}">List is empty.</td>
-			</tr>
+							<tr th:each="ms : ${memberSubsList}">
+								<td align="center" th:text="${ms.userId}">${member.userId}</td>
+								<td align="center" th:text="${ms.userName}">${member.userName}</td>
+								<td><a
+									th:href="@{/subs/remove?subsNo={subsNo}&view=subs(subsNo=${ms.subsNo})}">
+										<button class="btn btn-success" id="subsBtn"
+											th:text="#{subs.action.remove}">구독 취소</button>
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-sm">
+				<div class="container mt-3">
+					<h2 th:text="#{subs.header.toList}">나를 구독한 유저</h2>
+					<input class="form-control" id="myInput2" type="text"
+						placeholder="Search.."> <br>
+					<table class="table table-bordered">
+						<thead align="center">
+							<tr>
+								<th width=50% th:text="#{user.userId}">아이디</th>
+								<th width=50% th:text="#{user.userName}">사용자명</th>
+							</tr>
+						</thead>
 
-			<tr th:each="sm : ${subsMemberList}">
-				<td align="center" th:text="${sm.userId}">${member.userId}</td>
-				<td align="center" th:text="${sm.userName}">${member.userName}</td>
-			</tr>
-		</table>
+						<tbody id="myTable2">
+							<tr th:if="${#lists.isEmpty(subsMemberList)}">
+								<td colspan="2" th:text="#{common.listEmpty}">List is
+									empty.</td>
+							</tr>
+
+							<tr th:each="sm : ${subsMemberList}">
+								<td align="center" th:text="${sm.userId}">${member.userId}</td>
+								<td align="center" th:text="${sm.userName}">${member.userName}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(
+				function() {
+					$("#myInput").on("keyup",
+						function() {
+							var value = $(this).val().toLowerCase();
+								$("#myTable tr").filter(
+									function() {
+										$(this).toggle(
+											$(this)
+													.text()
+													.toLowerCase()
+													.indexOf(value) > -1)
+								});
+					});
+					$("#myInput2").on("keyup",
+						function() {
+							var value = $(this).val().toLowerCase();
+								$("#myTable2 tr").filter(
+									function() {
+										$(this).toggle(
+											$(this)
+													.text()
+													.toLowerCase()
+													.indexOf(value) > -1)
+								});
+					});
+				});
+		</script>
 	</div>
 </body>
 </html>

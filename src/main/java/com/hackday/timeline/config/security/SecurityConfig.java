@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +24,6 @@ import com.hackday.timeline.common.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final DataSource dataSource;
@@ -40,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/auth/login", "/user/register").permitAll()
 			.antMatchers("/").permitAll()
-			.antMatchers("/**").hasAuthority("ROLE_MEMBER")
+			.antMatchers("/**").access("hasRole('ROLE_MEMBER')")
 			.anyRequest().authenticated();
 
 		http
@@ -65,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		//데이터 소스를 지정하고 테이블을 이용하여 기존 로그인 정보를 기록
 		http.rememberMe()
-			.key("daehwan")
+			.key("token")
 			.tokenRepository(createJDBCRepository())
 			//쿠기 유효시간 지정
 			.tokenValiditySeconds(60 * 60 * 24);
@@ -81,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/js/**", "/webjars/**");
+		web.ignoring().antMatchers("/js/**", "/favicon.ico", "/webjars/**");
 	}
 
 	//빈 정의
