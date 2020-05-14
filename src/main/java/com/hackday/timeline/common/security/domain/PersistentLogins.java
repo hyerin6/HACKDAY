@@ -24,16 +24,16 @@ public class PersistentLogins {
 
 	@Id
 	@Column(length = 64)
-	String series;
+	private String series;
 
 	@Column(length = 64)
-	String username;
+	private String username;
 
 	@Column(length = 64)
-	String token;
+	private String token;
 
 	@CreationTimestamp
 	@Column(name = "last_used")
-	Timestamp lastUsed;
+	private Timestamp lastUsed;
 
 }

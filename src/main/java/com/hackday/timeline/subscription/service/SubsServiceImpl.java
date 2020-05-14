@@ -1,7 +1,7 @@
 package com.hackday.timeline.subscription.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,54 +13,49 @@ import com.hackday.timeline.subscription.domain.Subscription;
 import com.hackday.timeline.subscription.repository.SubsRepository;
 import com.hackday.timeline.subscription.vo.SubsVO;
 
-import lombok.extern.java.Log;
-
 @Service
-@Log
 public class SubsServiceImpl implements SubsService {
 
-	@Autowired
-	SubsRepository repository;
+	private final SubsRepository subsRepository;
+	private final MemberRepository memberRepository;
 
 	@Autowired
-	MemberRepository memberRepository;
+	public SubsServiceImpl(SubsRepository subsRepository, MemberRepository memberRepository) {
+		this.subsRepository = subsRepository;
+		this.memberRepository = memberRepository;
+	}
 
 	@Override
 	public void register(Subscription subscription, Long subsUserNo) throws Exception {
 		Member member = memberRepository.getOne(subsUserNo);
 		subscription.setSubsMember(member);
-		repository.save(subscription);
+		subsRepository.save(subscription);
 	}
 
 	//내가 구독한 사람
 	@Override
-	public List<SubsVO> memberSubsList(Member member) throws Exception {
-		Long userNo = member.getUserNo();
-		String userName = member.getUserName();
-		log.info(userNo + " " + userName);
-		List<Object[]> userlist = repository.memberSubsList(userNo);
+	public List<SubsVO> memberSubsList(Long userNo) throws Exception {
+		List<Object[]> userlist = subsRepository.memberSubsList(userNo);
 		List<SubsVO> subsList = new ArrayList<>();
 		for (Object[] user : userlist) {
-			subsList.add(new SubsVO((Long)user[0], userNo, (Long)user[1], userName, (String)user[2], (Date)user[3]));
+			subsList.add(new SubsVO((Long)user[0], (Long)user[1], (String)user[2], (String)user[3], (Date)user[4]));
 		}
 		return subsList;
 	}
 
 	//나를 구독한 사람
 	@Override
-	public List<SubsVO> subsMemberList(Member member) throws Exception {
-		Long userNo = member.getUserNo();
-		String userName = member.getUserName();
-		List<Object[]> userlist = repository.memberSubsList(userNo);
+	public List<SubsVO> subsMemberList(Long userNo) throws Exception {
+		List<Object[]> userlist = subsRepository.subsMemberList(userNo);
 		List<SubsVO> subsList = new ArrayList<>();
 		for (Object[] user : userlist) {
-			subsList.add(new SubsVO((Long)user[0], (Long)user[1], userNo, (String)user[2], userName, (Date)user[3]));
+			subsList.add(new SubsVO((Long)user[0], (Long)user[1], (String)user[2], (String)user[3], (Date)user[4]));
 		}
 		return subsList;
 	}
 
 	@Override
 	public void remove(Long subsNo) throws Exception {
-		repository.deleteById(subsNo);
+		subsRepository.deleteById(subsNo);
 	}
 }

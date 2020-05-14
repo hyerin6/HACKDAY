@@ -20,18 +20,18 @@ import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.member.vo.MemberVO;
 
-import lombok.extern.java.Log;
-
 @Controller
 @RequestMapping("/user")
-@Log
 public class MemberController {
 
-	@Autowired
-	MemberService memberService;
+	private final MemberService memberService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	public MemberController(MemberService memberService, PasswordEncoder passwordEncoder) {
+		this.memberService = memberService;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@GetMapping("/register")
 	public ModelAndView registerForm(Member member, Model model) throws Exception {

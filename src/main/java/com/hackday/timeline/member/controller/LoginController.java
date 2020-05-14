@@ -17,7 +17,8 @@ public class LoginController {
 		ModelAndView mv = new ModelAndView();
 
 		if (error != null) {
-			model.addAttribute("error", "Login Error!!!");
+			model.addAttribute("error", "틀린 정보, 다시 입력해주세요.");
+			mv.setViewName("thymeleaf/auth/loginForm");
 			return mv;
 		}
 		if (logout != null) {

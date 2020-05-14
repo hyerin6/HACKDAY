@@ -25,18 +25,18 @@ public class MemberAuth {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long userAuthNo;
+	private Long userAuthNo;
 
 	@Column(name = "user_no")
-	Long userNo;
+	private Long userNo;
 
 	@Column(length = 50)
-	String auth;
+	private String auth;
 
 	@CreationTimestamp
-	Date regDate;
+	private Date regDate;
 
 	@UpdateTimestamp
-	Date updDate;
+	private Date updDate;
 
 }

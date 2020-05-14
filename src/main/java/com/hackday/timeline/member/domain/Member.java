@@ -35,29 +35,29 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_no")
-	Long userNo;
+	private Long userNo;
 
 	@NotBlank
 	@Column(length = 25, nullable = false)
-	String userId;
+	private String userId;
 
 	@NotBlank
 	@Column(length = 200, nullable = false)
-	String userPw;
+	private String userPw;
 
 	@NotBlank
 	@Column(length = 20, nullable = false)
-	String userName;
+	private String userName;
 
 	@CreationTimestamp
-	Date regDate;
+	private Date regDate;
 
 	@UpdateTimestamp
 	Date upd_date;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")
-	List<MemberAuth> authList = new ArrayList<>();
+	private List<MemberAuth> authList = new ArrayList<>();
 
 	public void addAuth(MemberAuth auth) {
 		authList.add(auth);

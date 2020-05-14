@@ -21,23 +21,22 @@
 				<td colspan="6" th:text="#{common.listEmpty}">List is empty.</td>
 			</tr>
 
-			<tr th:each="member : ${memberList}" >
+			<tr th:each="member : ${memberList}">
 				<th:block th:if="!${myNo eq member.userNo}">
-				<td align="center" th:text="${member.userId}">${member.userId}</td>
-				<td align="center" th:text="${member.userName}">${member.userName}</td>
-				<td>
-					<th:block th:if="${member.subsOk}">
-						<a th:href="@{/subs/remove?subsUserNo={subsUserNo}(subsUserNo=${member.userNo})}">
-							<button class="btn btn-success" id="subsBtn">구독 중</button>
-						</a>
-					</th:block>
-					<th:block th:if="!${member.subsOk}">
-						<a th:href="@{/subs/register?subsUserNo={subsUserNo}(subsUserNo=${member.userNo})}">
-							<button class="btn btn-secondary" id="unSubsBtn">구독 하기</button>
-						</a>
-					</th:block>
-				</td>
-					
+					<td align="center" th:text="${member.userId}">${member.userId}</td>
+					<td align="center" th:text="${member.userName}">${member.userName}</td>
+					<td><th:block th:if="${member.subsOk}">
+							<a
+								th:href="@{/subs/remove?subsNo={subsNo}&view=user(subsNo=${member.subsNo})}">
+								<button class="btn btn-success" id="subsBtn">구독 중</button>
+							</a>
+						</th:block> <th:block th:if="!${member.subsOk}">
+							<a
+								th:href="@{/subs/register?subsUserNo={subsUserNo}(subsUserNo=${member.userNo})}">
+								<button class="btn btn-secondary" id="unSubsBtn">구독 하기</button>
+							</a>
+						</th:block></td>
+
 				</th:block>
 			</tr>
 		</table>
