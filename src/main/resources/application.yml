@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: hyerin-local
+    active: daehwan-local
     #active: hyerin-local
 
   mvc:

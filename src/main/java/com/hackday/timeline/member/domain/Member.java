@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "userNo")
 @ToString
 @Entity
+@ApiModel(description = "유저")
 @Table(name = "member")
 public class Member {
 

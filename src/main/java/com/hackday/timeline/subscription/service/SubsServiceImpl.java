@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.member.domain.Member;
@@ -19,7 +18,6 @@ public class SubsServiceImpl implements SubsService {
 	private final SubsRepository subsRepository;
 	private final MemberRepository memberRepository;
 
-	@Autowired
 	public SubsServiceImpl(SubsRepository subsRepository, MemberRepository memberRepository) {
 		this.subsRepository = subsRepository;
 		this.memberRepository = memberRepository;

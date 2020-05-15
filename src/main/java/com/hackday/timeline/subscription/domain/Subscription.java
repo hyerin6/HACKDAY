@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.hackday.timeline.member.domain.Member;
 
+import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "subsNo")
 @ToString
 @Entity
+@ApiModel(description = "구독")
 @Table(name = "subscription")
 public class Subscription {
 

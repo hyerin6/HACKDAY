@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.member.domain.Member;
@@ -20,7 +19,6 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRepository memberRepository;
 	private final SubsRepository subsRepository;
 
-	@Autowired
 	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository) {
 		this.memberRepository = memberRepository;
 		this.subsRepository = subsRepository;
