@@ -69,7 +69,7 @@ public class S3ServiceImpl implements S3Service{
     }
 
     @Override
-    public void deleteFile(Image image){
+    public void deleteFile(Image image) {
         s3Client.deleteObject(new DeleteObjectRequest(
             bucket + "/timeline-images",
             image.getFileName()

@@ -31,22 +31,18 @@ public class PostController {
 		this.postService = postService;
 	}
 
-	// 첫 호출시 5개의 게시글을 보여줍니다.
 	@GetMapping("/posts")
 	public String myBoard(Authentication authentication, Model model) {
-		// 로그인한 유저 정보
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
 		log.info("GET myBoard userId = " + userId);
 
-		// posts 조회
 		List<Post> posts = postService.getPosts(null, userId);
 
 		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
 
-		// view 에서 필요한 정보 Model에 Add
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
