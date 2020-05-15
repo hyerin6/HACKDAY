@@ -43,10 +43,9 @@ public class SwaggerConfig {
 			.ignoredParameterTypes(AuthenticationPrincipal.class)
 			.select()
 			.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-			.paths(PathSelectors.ant("/**"))
 			.paths(Predicates.not(PathSelectors.regex("/error.*")))
-			.build()
-			.globalResponseMessage(RequestMethod.GET, responseMessages);
+			.build();
+  .globalResponseMessage(RequestMethod.GET, responseMessages);
 	}
 
 }
