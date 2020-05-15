@@ -34,6 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
+			"/swagger-ui.html", "/webjars/**", "/swagger/**", "/js/**", "/favicon.ico", "/webjars/**");
+	}
+
+	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/auth/login", "/user/register").permitAll()
@@ -75,11 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(createUserDetailsService())
 			.passwordEncoder(createPasswordEncoder());
-	}
-
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/js/**", "/favicon.ico", "/webjars/**");
 	}
 
 	//빈 정의

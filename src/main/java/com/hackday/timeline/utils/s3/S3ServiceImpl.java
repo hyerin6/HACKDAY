@@ -74,7 +74,6 @@ public class S3ServiceImpl implements S3Service {
 		s3Client.deleteObject(new DeleteObjectRequest(
 			bucket + "/timeline-images",
 			image.getFileName()));
-
 	}
 
 }
