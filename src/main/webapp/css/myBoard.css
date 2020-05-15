@@ -33,7 +33,7 @@ body{
 .profile-header .profile-header-content {
     color: #fff;
     padding: 35px;
-    padding-top: 100px;
+    padding-top: 50px;
 }
 
 .profile-header-img {
@@ -46,7 +46,8 @@ body{
     margin: 0 0 -20px;
     padding: 3px;
     border-radius: 4px;
-    background: #fff
+    background: #fff;
+    border: 2px solid #000000;
 }
 
 .profile-header-img img {
@@ -67,13 +68,13 @@ body{
 .profile-header .profile-header-content,
 .profile-header .profile-header-tab {
     display: block;
-    padding-left: 45px;
+    padding-left: 35px;
     position: relative;
 }
 
 .nav-item{
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 80px;
+    padding-right: 80px;
 }
 
 
@@ -748,7 +749,7 @@ button {
     cursor:pointer;
 }
 .tab_menu_container {
-    display:flex;
+    display: flex;
 }
 .tab_menu_btn {
     transition:0.3s all;
@@ -784,5 +785,9 @@ button {
     width: auto; height: auto;
     max-width: 1000px;
     max-height: 1000px;
+}
+
+a {
+    display: block;
 }
 
