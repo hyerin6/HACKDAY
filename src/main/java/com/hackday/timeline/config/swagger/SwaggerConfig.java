@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Predicates;
@@ -45,7 +44,6 @@ public class SwaggerConfig {
 			.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
 			.paths(Predicates.not(PathSelectors.regex("/error.*")))
 			.build();
-  .globalResponseMessage(RequestMethod.GET, responseMessages);
 	}
 
 }

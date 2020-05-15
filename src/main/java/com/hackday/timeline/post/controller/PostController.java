@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
+import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.post.domain.Post;
 import com.hackday.timeline.post.dto.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
@@ -25,10 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class PostController {
 
-	private PostService postService;
+	private final PostService postService;
 
-	public PostController(PostService postService){
+	private final MemberService memberService;
+
+	public PostController(PostService postService, MemberService memberService){
 		this.postService = postService;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/posts")
@@ -63,8 +67,6 @@ public class PostController {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 
-		log.info("image == " + insertPostDto.getImage().isEmpty());
-
 		postService.insertPost(insertPostDto, member);
 
 		return "redirect:/posts";
@@ -79,6 +81,25 @@ public class PostController {
 		postService.deletePost(postId, userId);
 
 		return "redirect:/posts";
+	}
+
+	@GetMapping("/{id}/feeds")
+	public String getFeeds(@PathVariable("id") Long userId, Model model) throws Exception {
+		List<Post> posts = postService.getPosts(null, userId);
+
+		if(posts.isEmpty()) {
+			return "posts/empty";
+		}
+
+		Long lastIdOfPosts = posts.isEmpty() ?
+			null : posts.get(posts.size() - 1).getId();
+
+		model.addAttribute("posts", posts);
+		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
+		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
+		model.addAttribute("user", memberService.read(userId));
+
+		return "posts/userBoard";
 	}
 
 }
