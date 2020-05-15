@@ -11,11 +11,21 @@ import lombok.ToString;
 @AllArgsConstructor
 public class MemberVO {
 
-	Long userNo;
+	private Long userNo;
 
-	String userId;
+	private String userId;
 
-	String userName;
+	private String userName;
 
-	boolean subsOk;
+	private boolean subsOk;
+
+	private Long subsNo = -1L;
+
+	public MemberVO(Long userNo, String userId, String userName, boolean subsOk) {
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userName = userName;
+		this.subsOk = subsOk;
+	}
+
 }

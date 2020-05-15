@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.hackday.timeline.member.domain.Member;
 
+import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,22 +25,23 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "subsNo")
 @ToString
 @Entity
+@ApiModel(description = "구독")
 @Table(name = "subscription")
 public class Subscription {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long subsNo;
+	private Long subsNo;
 
 	@CreationTimestamp
-	Date regDate;
+	private Date regDate;
 
 	@ManyToOne
 	@JoinColumn(name = "user_no")
-	Member member;
+	private Member member;
 
 	@ManyToOne
 	@JoinColumn(name = "subs_user_no")
-	Member subsMember;
+	private Member subsMember;
 
 }

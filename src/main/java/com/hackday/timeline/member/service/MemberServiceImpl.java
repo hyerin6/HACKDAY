@@ -1,77 +1,74 @@
 package com.hackday.timeline.member.service;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hackday.timeline.member.domain.Member;
+import com.hackday.timeline.member.domain.MemberAuth;
 import com.hackday.timeline.member.repository.MemberRepository;
 import com.hackday.timeline.member.vo.MemberVO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
 
-import lombok.extern.java.Log;
-
 @Service
-@Log
 public class MemberServiceImpl implements MemberService {
 
-	@Autowired
-	MemberRepository repository;
+	private final MemberRepository memberRepository;
+	private final SubsRepository subsRepository;
 
-	@Autowired
-	SubsRepository subsRepository;
+	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository) {
+		this.memberRepository = memberRepository;
+		this.subsRepository = subsRepository;
+	}
 
 	@Override
 	public void register(Member member) throws Exception {
-		Member userEntity = new Member();
-		userEntity.setUserId(member.getUserId());
-		userEntity.setUserPw(member.getUserPw());
-		userEntity.setUserName(member.getUserName());
-		repository.save(userEntity);
+		Member memberEntity = new Member();
+		memberEntity.setUserId(member.getUserId());
+		memberEntity.setUserPw(member.getUserPw());
+		memberEntity.setUserName(member.getUserName());
+
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setAuth("ROLE_MEMBER");
+		memberEntity.addAuth(memberAuth);
+
+		memberRepository.save(memberEntity);
 	}
 
 	@Override
 	public Member read(Long userNo) throws Exception {
-		return repository.getOne(userNo);
+		return memberRepository.getOne(userNo);
 	}
 
 	@Override
 	public void remove(Long userNo) throws Exception {
-		repository.deleteById(userNo);
+		memberRepository.deleteById(userNo);
 	}
 
 	@Override
 	public void modify(Member member) throws Exception {
-		Member userEntity = repository.getOne(member.getUserNo());
+		Member userEntity = memberRepository.getOne(member.getUserNo());
 		userEntity.setUserName(member.getUserName());
-		repository.save(userEntity);
+		memberRepository.save(userEntity);
 	}
 
 	@Override
 	public List<MemberVO> listAll(Long userNo) throws Exception {
-		List<Member> memberList = repository.findAll();
+		List<Member> memberList = memberRepository.findAll();
 		List<Object[]> valueArray = subsRepository.memberSubsList(userNo);
-
-		for (Object[] list : valueArray) {
-			log.info(list[0] + " " + list[1] + " " + list[2]);
-		}
 		List<MemberVO> voList = new ArrayList<>();
-		Map<Long, Integer> map = new HashMap<>();
+		Map<Long, Long> map = new HashMap<>();
 
 		for (Object[] array : valueArray) {
-			Integer temp = ((BigInteger)array[1]).intValue();
-			Long no = temp.longValue();
-			map.put(no, 0);
+			map.put((Long)array[1], (Long)array[0]);
 		}
 
 		for (Member m : memberList) {
 			if (map.containsKey(m.getUserNo())) {
-				voList.add(new MemberVO(m.getUserNo(), m.getUserId(), m.getUserName(), true));
+				voList.add(new MemberVO(m.getUserNo(), m.getUserId(), m.getUserName(), true, map.get(m.getUserNo())));
 			} else {
 				voList.add(new MemberVO(m.getUserNo(), m.getUserId(), m.getUserName(), false));
 			}

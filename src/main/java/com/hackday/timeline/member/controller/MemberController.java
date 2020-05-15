@@ -2,7 +2,6 @@ package com.hackday.timeline.member.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,19 +19,21 @@ import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.member.vo.MemberVO;
 
-import lombok.extern.java.Log;
+import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/user")
-@Log
 public class MemberController {
 
-	@Autowired
-	MemberService memberService;
+	private final MemberService memberService;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	public MemberController(MemberService memberService, PasswordEncoder passwordEncoder) {
+		this.memberService = memberService;
+		this.passwordEncoder = passwordEncoder;
+	}
 
+	//가입 화면
 	@GetMapping("/register")
 	public ModelAndView registerForm(Member member, Model model) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -41,6 +42,7 @@ public class MemberController {
 		return mv;
 	}
 
+	//가입 요청
 	@PostMapping("/register")
 	public ModelAndView register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
 		throws Exception {
@@ -62,7 +64,7 @@ public class MemberController {
 		return mv;
 	}
 
-	//유저 전체
+	//유저 리스트 화면
 	@GetMapping("/list")
 	public ModelAndView list(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -76,7 +78,7 @@ public class MemberController {
 		return mv;
 	}
 
-	// 상세 화면
+	//프로필 화면
 	@GetMapping("/read")
 	public ModelAndView read(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -89,7 +91,7 @@ public class MemberController {
 		return mv;
 	}
 
-	// 삭제 처리
+	@ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴를 요청합니다.")
 	@PostMapping("/remove")
 	public String remove(Long userNo, RedirectAttributes rttr) throws Exception {
 		memberService.remove(userNo);

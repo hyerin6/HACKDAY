@@ -13,7 +13,6 @@
 		<p th:text="${serverTime}">시간 표시</p>
 		<script th:inline="javascript">  
 			var result = [[${msg}]];
-			console.log(result)
 			if (result === "SUCCESS") {  
 				alert([[#{user.joinMemberSuccess(${userName})}]])
 			}else if(result === "REMOVE"){
