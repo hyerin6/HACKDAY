@@ -9,9 +9,9 @@ import com.hackday.timeline.utils.s3.S3Service;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-	private ImageRepository imageRepository;
+	private final ImageRepository imageRepository;
 
-	private S3Service s3Service;
+	private final S3Service s3Service;
 
 	public ImageServiceImpl(ImageRepository imageRepository, S3Service s3Service){
 		this.imageRepository = imageRepository;

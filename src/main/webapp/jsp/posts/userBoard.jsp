@@ -20,6 +20,25 @@
 <div class="col-md-12">
 <div id="content" class="content content-full-width">
 <div class="profile">
+<div class="profile-header">
+<div class="profile-header-cover"></div>
+<div class="profile-header-content">
+    <div class="profile-header-img">
+        <img src="https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg">
+    </div>
+    <div class="profile-header-info">
+        <h4 class="m-t-10 m-b-5">${user.userName}</h4>
+    </div>
+</div>
+<div class="main_nav tab_wrap">
+    <ul class="profile-header-tab nav nav-tabs center tab_menu_container">
+        <li class="nav-item tab_menu_btn on"><a href="#" target="_self" class="tab_menu_btn1 tab_menu_btn1 on active show">${user.userName} POSTS</a></li>
+        <li class="nav-item tab_menu_btn on"><a href="/posts" target="_self" class="tab_menu_btn2" >MY POSTS</a></li>
+        <li class="nav-item tab_menu_btn"><a href="/" target="_self" class="tab_menu_btn3" >HOME</a></li>
+    </ul>
+</div>
+</div>
+</div>
 <div class="tab_box_container tab_box_container">
 <div class="profile-content">
 <div class="tab-content p-0">
@@ -30,9 +49,7 @@
                 <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
                 <div class="timeline-body block">
                     <div class="timeline-header">
-                        <span class="username">
-                            <a href="/users/${user.userName}" class="profile-link">${user.userName}</a>
-                        </span>
+                        <span class="username">${user.userName}</span>
                         <span class="date pull-right text-muted">${post.regDate}</span>
                     </div>
                     <div class="timeline-content">
@@ -96,7 +113,7 @@
                                     "<div class=\"timeline-body block\">\n" +
                                     "<div class=\"timeline-header\">\n" +
                                     "<span class=\"username\">\n" +
-                                    "<a href=\"/users/" + "${user.userName}" + "\" class=\"profile-link\">" + "${user.userName}" + "</a>\n" +
+                                    "<p class=\"profile-link\">" + "${user.userName}" + "</p>\n" +
                                     "</span>\n" +
                                     "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +

@@ -88,6 +88,7 @@ public class PostController {
 		List<Post> posts = postService.getPosts(null, userId);
 
 		if(posts.isEmpty()) {
+			model.addAttribute("user", memberService.read(userId));
 			return "posts/empty";
 		}
 
