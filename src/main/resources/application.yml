@@ -18,7 +18,6 @@ spring:
       max-file-size: 30MB
       max-request-size: 30MB
 
-  #JSP와 같이 사용할 경우 뷰 구분을 위해 컨트롤러가 뷰 이름을 반환할때 thymeleaf/ 로 시작하면 타임리프로 처리하도록 view-names 지정
   thymeleaf:
     view-names: thymeleaf/*
     prefix: classpath:/templates/
@@ -53,15 +52,16 @@ spring:
     generate-ddl: true
     database: mysql
     show_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         storage_engine: innodb
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        enable_lazy_load_no_trans: true
 
   datasource:
     url: jdbc:mysql://localhost:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
@@ -72,7 +72,7 @@ spring:
   thymeleaf:
     cache: false
     check-template-location: true
-    
+
 --- #daehwan-local
 spring:
   profiles: daehwan-local

@@ -776,3 +776,13 @@ button {
     padding-left: 150px;
 }
 
+.empty-img {
+    display: block;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: auto; height: auto;
+    max-width: 1000px;
+    max-height: 1000px;
+}
+

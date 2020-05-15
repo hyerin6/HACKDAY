@@ -58,7 +58,7 @@
                     <span class="date pull-right text-muted">${post.regDate}</span>
                 </div>
                 <div class="timeline-content">
-                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'">
+                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
                 </div><br/>
                 <div class="timeline-content">
                     <p class="post">${post.content}</p>
@@ -124,8 +124,8 @@
     var count = 4;
 
     $(window).scroll(function() {
-        var window_height = window.innerHeight; // 실제 화면 높이
-        if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) { // 스크롤을 내리는 중일 때
+        var window_height = window.innerHeight;
+        if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) {
             if ($(window).scrollTop() == ($(document).height() - window_height)) {
                 isLoading = true; // 로딩 시작
 
@@ -146,8 +146,7 @@
                         count += 5;
                         if(data.posts != null && data.posts.length != 0){
                             for(let i = 0; i < data.posts.length; ++i){
-                                let postId = data.posts[i].id;
-                                var imagePath = data.posts[i].image == null ? 'https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg' : data.posts[i].image.filePath;
+                                var imagePath = data.posts[i].image == null ? 'https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg' : data.posts[i].image.filePath;
 
                                 $(".posts").append(
                                     "<li>\n" +
@@ -160,7 +159,7 @@
                                     "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +
                                     "<div class=\"timeline-content\">\n" +
-                                    "<img class=\"max-small\" src=\"" + "${imagePath}" + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
+                                    "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
                                     "</div><br/>\n" +
                                     "<div class=\"timeline-content\">\n" +
                                     "<p class=\"post\">" + data.posts[i].content + "</p>\n" +
@@ -220,7 +219,6 @@
     });
 
     function update_btn(id, content) {
-        alert(id + ", " + content);
         $.ajax({
             type: 'PATCH',
             url: '/api/posts',
@@ -235,6 +233,7 @@
                 content: content
             }),
             success: function () {
+                location.href = location.href;
             },
             error: function () {
                 location.href = location.href;
