@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.slave-list",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.slave-list."
+    }
+  ] }

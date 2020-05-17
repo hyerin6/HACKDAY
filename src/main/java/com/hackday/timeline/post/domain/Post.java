@@ -33,7 +33,6 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel(description = "게시글")
-@Table(name = "post")
 public class Post {
 
 	@Id

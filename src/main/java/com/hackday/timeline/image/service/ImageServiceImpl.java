@@ -1,6 +1,7 @@
 package com.hackday.timeline.image.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hackday.timeline.image.domain.Image;
 import com.hackday.timeline.image.repository.ImageRepository;

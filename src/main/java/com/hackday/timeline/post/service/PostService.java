@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.post.domain.Post;
-import com.hackday.timeline.post.dto.InsertPostDto;
+import com.hackday.timeline.post.request.InsertPostDto;
 
 public interface PostService {
 

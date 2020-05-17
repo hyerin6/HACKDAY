@@ -15,6 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.hackday.timeline.member.domain.Member;
 
 import io.swagger.annotations.ApiModel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -23,7 +23,6 @@ import lombok.Setter;
 @ApiModel(description = "게시글에 첨부되는 이미지 모델")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "image")
 public class Image {
 
 	@Id

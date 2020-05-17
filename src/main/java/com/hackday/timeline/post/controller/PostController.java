@@ -18,12 +18,20 @@ import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.post.domain.Post;
-import com.hackday.timeline.post.dto.InsertPostDto;
+import com.hackday.timeline.post.request.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@Api(tags = {"게시글 조회 & 삭제 API"})
+@SwaggerDefinition(tags = {
+	@Tag(name = "게시글 조회 & 삭제 API", description = "READ & DELETE")
+})
 public class PostController {
 
 	private final PostService postService;
@@ -35,6 +43,7 @@ public class PostController {
 		this.memberService = memberService;
 	}
 
+	@ApiOperation(value = "게시글 호출", notes = "스크롤이 끝나면 호출됩니다.")
 	@GetMapping("/posts")
 	public String myBoard(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -56,6 +65,7 @@ public class PostController {
 		return "posts/myBoard";
 	}
 
+	@ApiOperation(value = "게시글 작성", notes = "글과 이미지를 저장합니다.")
 	@PostMapping("/posts")
 	public String insertPost(@Valid @ModelAttribute InsertPostDto insertPostDto, BindingResult bindingResult,
 		Authentication authentication, Model model) throws IOException {
@@ -72,6 +82,7 @@ public class PostController {
 		return "redirect:/posts";
 	}
 
+	@ApiOperation(value = "게시글 삭제", notes = "PathVariable로 받은 id 값의 post를 삭제합니다.")
 	@GetMapping("/posts/{id}")
 	public String deletePost(@PathVariable("id") Long postId, Authentication authentication) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -83,6 +94,7 @@ public class PostController {
 		return "redirect:/posts";
 	}
 
+	@ApiOperation(value = "다른 사용자의 게시글 조회", notes = "PathVariable로 받은 userId 값의 post 목록을 조회합니다.")
 	@GetMapping("/{id}/feeds")
 	public String getFeeds(@PathVariable("id") Long userId, Model model) throws Exception {
 		List<Post> posts = postService.getPosts(null, userId);
