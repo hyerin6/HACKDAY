@@ -31,11 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 @SwaggerDefinition(tags = {
 	@Tag(name = "게시글 조회 & 수정 REST API", description = "READ & UPDATE")
 })
-public class PostAPIController {
+public class PostApiController {
 
 	private final PostService postService;
 
-	public PostAPIController(PostService postService) {
+	public PostApiController(PostService postService) {
 		this.postService = postService;
 	}
 
