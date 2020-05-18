@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.repository.MemberRepository;
@@ -24,6 +25,7 @@ public class SubsServiceImpl implements SubsService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void register(Subscription subscription, Long subsUserNo) throws Exception {
 		Member member = memberRepository.getOne(subsUserNo);
 		subscription.setSubsMember(member);
@@ -32,6 +34,7 @@ public class SubsServiceImpl implements SubsService {
 
 	//내가 구독한 사람
 	@Override
+	@Transactional(readOnly = true)
 	public List<SubsVO> memberSubsList(Long userNo) throws Exception {
 		List<Object[]> userlist = subsRepository.memberSubsList(userNo);
 		List<SubsVO> subsList = new ArrayList<>();
@@ -43,6 +46,7 @@ public class SubsServiceImpl implements SubsService {
 
 	//나를 구독한 사람
 	@Override
+	@Transactional(readOnly = true)
 	public List<SubsVO> subsMemberList(Long userNo) throws Exception {
 		List<Object[]> userlist = subsRepository.subsMemberList(userNo);
 		List<SubsVO> subsList = new ArrayList<>();
@@ -53,6 +57,7 @@ public class SubsServiceImpl implements SubsService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void remove(Long subsNo) throws Exception {
 		subsRepository.deleteById(subsNo);
 	}

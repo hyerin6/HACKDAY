@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.domain.MemberAuth;
@@ -25,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void register(Member member) throws Exception {
 		Member memberEntity = new Member();
 		memberEntity.setUserId(member.getUserId());
@@ -39,16 +41,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Member read(Long userNo) throws Exception {
 		return memberRepository.getOne(userNo);
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void remove(Long userNo) throws Exception {
 		memberRepository.deleteById(userNo);
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void modify(Member member) throws Exception {
 		Member userEntity = memberRepository.getOne(member.getUserNo());
 		userEntity.setUserName(member.getUserName());
@@ -56,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<MemberVO> listAll(Long userNo) throws Exception {
 		List<Member> memberList = memberRepository.findAll();
 		List<Object[]> valueArray = subsRepository.memberSubsList(userNo);
