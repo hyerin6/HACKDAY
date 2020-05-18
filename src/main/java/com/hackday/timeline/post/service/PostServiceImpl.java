@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@Transactional
 public class PostServiceImpl implements PostService {
 
 	private PostRepository postRepository;
@@ -35,6 +34,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
@@ -54,14 +54,14 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	public void modifyPost(InsertPostDto insertPostDto, Long postId, Member member) {
 		Post post = postRepository.findById(postId).get();
 		post.setContent(insertPostDto.getContent());
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
 
