@@ -2,8 +2,6 @@ package com.hackday.timeline.member.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -104,10 +102,12 @@ public class MemberController {
 	}
 
 	@ApiOperation(value = "회원 탈퇴 요청", notes = "회원 탈퇴를 요청합니다.")
-	public String remove(Long userNo, RedirectAttributes rttr, HttpSession session) throws Exception {
+	@PostMapping("remove")
+	public String remove(Long userNo, RedirectAttributes rttr, Authentication authentication)
+		throws Exception {
 		memberService.remove(userNo);
-		rttr.addFlashAttribute("msg", "REMOVE");
-		session.invalidate();
+		rttr.addFlashAttribute("msg", "REMOE");
+		authentication.setAuthenticated(false);
 		return "redirect:/";
 	}
 

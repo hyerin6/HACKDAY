@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/thymeleaf/layouts/main_template}">
+
 <head>
 <title>User</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,41 +10,39 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<h2 th:text="#{user.header.read}">회원 상세보기</h2>
-		<form id="member" action="list.html" th:action="@{/user/remove}"
-			th:object="${member}" method="POST">
+		<h2 th:text="#{user.header.modify}">프로필 수정</h2>
+		<form id="member" action="list.html" th:action="@{/user/modify}"
+			  th:object="${member}" method="POST">
 			<input type="hidden" name="userNo" th:field="*{userNo}" />
 			<table>
 				<tr>
 					<td th:text="#{user.userId}">아이디</td>
 					<td><input type="text" name="userId" th:field="*{userId}"
 						readonly="readonly" /></td>
+					<td><span class="error_message"
+						th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">userId의
+							에러 메시지</span></td>
 				</tr>
 				<tr>
 					<td th:text="#{user.userName}">사용자명</td>
-					<td><input type="text" name="userName" th:field="*{userName}"
-						readonly="readonly" /></td>
+					<td><input type="text" name="userName" th:field="*{userName}" /></td>
+					<td><span class="error_message"
+						th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">userName의
+							에러 메시지</span></td>
 				</tr>
 			</table>
+
 		</form>
 		<div>
-			<button type="submit" id="btnEdit" th:text="#{action.edit}">프로필 수정</button>
-			<button type="submit" id="btnRemove" th:text="#{action.remove}">탈퇴</button>
+			<button type="submit" id="btnModify" th:text="#{action.modify}">수정</button>
 		</div>
 		<script>  
 			$(document).ready(function() {     
 				var formObj = $("#member");     
-				console.log(formObj);     
-				$("#btnEdit").on("click", function() {  
-					var userNo = $("#userNo");  
-					var userNoVal = userNo.val();     
-					self.location = "/user/modify?userNo=" + userNoVal; 
-				});     
-				$("#btnRemove").on("click", function() {  
-					formObj.attr("action", "remove");  
+				$("#btnModify").on("click", function() {  
 					formObj.submit();  
 				});     
-			});   
+			});
 		</script>
 	</div>
 </body>

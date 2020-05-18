@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		//데이터 소스를 지정하고 테이블을 이용하여 기존 로그인 정보를 기록
 		http.rememberMe()
-			.key("token")
+			.key("timeline")
 			.tokenRepository(createJDBCRepository())
 			//쿠기 유효시간 지정
 			.tokenValiditySeconds(60 * 60 * 24);

@@ -1,7 +1,7 @@
 spring:
   profiles:
-    active: daehwan-local
-    #active: prod
+    #active: daehwan-local
+    active: prod
 
   mvc:
     view:
@@ -127,22 +127,13 @@ spring:
       show_sql: true
       format_sql: true
 
-  master:
-    datasource:
-      jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
-      username: sns_dev
-      password: 1234
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      testOnBorrow: true
-
-    slave:
-      datasource:
-        jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
-        username: sns_dev
-        password: 1234
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        testOnBorrow: true
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sns_dev
+    password: 1234
+    
+    
   thymeleaf:
     cache: false
     check-template-location: true

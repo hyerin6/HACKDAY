@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/thymeleaf/layouts/main_template}">
+<head>
+<title>Home</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<h1 th:text="#{common.homeWelcome}"></h1>
+		<p th:text="${serverTime}">시간 표시</p>
+		<script th:inline="javascript">  
+			var result = [[${msg}]];
+			if (result === "SUCCESS") {  
+				alert([[#{user.joinMemberSuccess(${userName})}]])
+			}else if(result === "REMOVE"){
+				alert([[#{user.removeMemberSuccess}]])
+			}else if(result === "MODIFY"){
+				alert([[#{user.modifyMemberSuccess}]])
+			}
+	</script>
+	</div>
+</body>
+</html>
