@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -12,13 +11,15 @@ import org.springframework.validation.BindingResult;
 import com.hackday.timeline.image.service.ImageService;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.post.domain.Post;
-import com.hackday.timeline.post.dto.InsertPostDto;
+import com.hackday.timeline.post.request.InsertPostDto;
 import com.hackday.timeline.post.repository.PostRepository;
 import com.hackday.timeline.image.domain.Image;
 import com.hackday.timeline.utils.s3.S3Service;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
 	private PostRepository postRepository;
@@ -77,13 +78,15 @@ public class PostServiceImpl implements PostService {
 		return posts;
 	}
 
-	private List<Post> get(Long id, Long userId) {
+	@Transactional(readOnly=true)
+	public List<Post> get(Long id, Long userId) {
 		return id == null ?
 			this.postRepository.findTop5ByUserIdOrderByRegDateDesc(userId) :
 			this.postRepository.findTop5ByUserIdAndIdLessThanOrderByIdDescRegDateDesc(userId, id);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Long getMinIdOfPosts(Long userId) {
 		return postRepository.findMinIdByUserId(userId);
 	}

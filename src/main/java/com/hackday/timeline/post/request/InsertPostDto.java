@@ -1,4 +1,4 @@
-package com.hackday.timeline.post.dto;
+package com.hackday.timeline.post.request;
 
 import javax.validation.constraints.NotBlank;
 
