@@ -2,21 +2,17 @@ package com.hackday.timeline.subscription.repository;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.subscription.domain.Subscription;
-import com.hackday.timeline.subscription.repository.SubsRepository;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource(locations = "/application.yml")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -35,7 +31,7 @@ class SubsRepositoryTest {
 		subs.setMember(member1);
 		subs.setSubsMember(member2);
 		Subscription saveSubs = subsRepository.save(subs);
-		assertThat(saveSubs.getSubsNo(), is(notNullValue()));
+		assertEquals(saveSubs.getSubsNo(), is(notNullValue()));
 	}
 
 }
