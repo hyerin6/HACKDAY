@@ -32,20 +32,22 @@
 				수정</button>
 			<button type="submit" id="btnRemove" th:text="#{action.remove}">탈퇴</button>
 		</div>
-		<script>
-			$(document).ready(function() {
-				var formObj = $("#member");
-				console.log(formObj);
-				$("#btnEdit").on("click", function() {
-					var userNo = $("#userNo");
-					var userNoVal = userNo.val();
-					self.location = "/user/modify?userNo=" + userNoVal;
-				});
-				$("#btnRemove").on("click", function() {
-					formObj.attr("action", "remove");
-					formObj.submit();
-				});
-			});
+
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script>  
+			$(document).ready(function() {     
+				var formObj = $("#member");     
+				console.log(formObj);     
+				$("#btnEdit").on("click", function() {  
+					var userNo = $("#userNo");  
+					var userNoVal = userNo.val();     
+					self.location = "/user/modify?userNo=" + userNoVal; 
+				});     
+				$("#btnRemove").on("click", function() {  
+					formObj.attr("action", "remove");  
+					formObj.submit();  
+				});     
+			});   
 		</script>
 	</div>
 </body>
