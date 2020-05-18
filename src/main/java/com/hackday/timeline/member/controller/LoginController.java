@@ -8,11 +8,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hackday.timeline.member.domain.Member;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
+
 @Controller
-@RequestMapping("auth")
+@Api(tags = {"로그인 API"})
+@SwaggerDefinition(tags = {
+	@Tag(name = "로그인 API", description = "login")
+})
+@RequestMapping("/auth")
 public class LoginController {
 
-	@GetMapping("login")
+	@ApiOperation(value = "로그인 화면", notes = "로그인 페이지를 보여줍니다.")
+	@GetMapping("/login")
 	public ModelAndView loginForm(String error, String logout, Model model) {
 		ModelAndView mv = new ModelAndView();
 

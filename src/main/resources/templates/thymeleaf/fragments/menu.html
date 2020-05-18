@@ -12,10 +12,10 @@
 				<th:block sec:authorize="isAuthenticated()">
 					<td width="100"><a href="../user/list.html"
 						th:href="@{/user/list}" th:text="#{menu.user}">유저 목록</a></td>
-					<td width="100"><a href="../post.jsp" th:href="@{/posts}"
+					<td width="100"><a href="../myboard.jsp" th:href="@{/posts}"
 						th:text="#{menu.post}">타임 라인</a></td>
-					<td width="100"><a href="../subs/list.html" th:href="@{/subs/list}"
-						th:text="#{menu.subs}">구독 목록</a></td>
+					<td width="100"><a href="../subs/list.html"
+						th:href="@{/subs/list}" th:text="#{menu.subs}">구독 목록</a></td>
 				</th:block>
 			</tr>
 		</table>

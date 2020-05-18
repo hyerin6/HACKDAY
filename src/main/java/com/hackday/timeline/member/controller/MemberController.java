@@ -2,6 +2,8 @@ package com.hackday.timeline.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,16 @@ import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.member.vo.MemberVO;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 
 @Controller
+@Api(tags = {"유저 API"})
+@SwaggerDefinition(tags = {
+	@Tag(name = "유저 API", description = "유저 관리 CRUD")
+})
 @RequestMapping("/user")
 public class MemberController {
 
@@ -33,7 +42,7 @@ public class MemberController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	//가입 화면
+	@ApiOperation(value = "회원 가입 화면", notes = "회원 가입 페이지를 보여줍니다.")
 	@GetMapping("/register")
 	public ModelAndView registerForm(Member member, Model model) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -42,7 +51,7 @@ public class MemberController {
 		return mv;
 	}
 
-	//가입 요청
+	@ApiOperation(value = "회원 가입 요청", notes = "회원 가입을 요청합니다.")
 	@PostMapping("/register")
 	public ModelAndView register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
 		throws Exception {
@@ -64,7 +73,7 @@ public class MemberController {
 		return mv;
 	}
 
-	//유저 리스트 화면
+	@ApiOperation(value = "유저 리스트 화면", notes = "유저 리스트 페이지를 보여줍니다.")
 	@GetMapping("/list")
 	public ModelAndView list(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -78,29 +87,31 @@ public class MemberController {
 		return mv;
 	}
 
-	//프로필 화면
+	@ApiOperation(value = "프로필 화면", notes = "회원 가입 페이지를 보여줍니다.")
 	@GetMapping("/read")
 	public ModelAndView read(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
+
 		Member member = customUser.getMember();
 		Long userNo = member.getUserNo();
-		model.addAttribute(memberService.read(userNo));
+
+		member = memberService.read(userNo);
+		model.addAttribute(member);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/read");
 		return mv;
 	}
 
-	@ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴를 요청합니다.")
-	@PostMapping("/remove")
-	public String remove(Long userNo, RedirectAttributes rttr) throws Exception {
+	@ApiOperation(value = "회원 탈퇴 요청", notes = "회원 탈퇴를 요청합니다.")
+	public String remove(Long userNo, RedirectAttributes rttr, HttpSession session) throws Exception {
 		memberService.remove(userNo);
 		rttr.addFlashAttribute("msg", "REMOVE");
-
+		session.invalidate();
 		return "redirect:/";
 	}
 
-	// 수정 화면
+	@ApiOperation(value = "프로필 수정 화면", notes = "프로필 수정 페이지를 보여줍니다.")
 	@GetMapping("/modify")
 	public ModelAndView modifyForm(Long userNo, Model model) throws Exception {
 		model.addAttribute(memberService.read(userNo));
@@ -110,7 +121,7 @@ public class MemberController {
 		return mv;
 	}
 
-	// 수정 처리
+	@ApiOperation(value = "프로필 수정 요청", notes = "프로필 수정을 요청합니다.")
 	@PostMapping("/modify")
 	public String modify(Member member, RedirectAttributes rttr) throws Exception {
 		memberService.modify(member);

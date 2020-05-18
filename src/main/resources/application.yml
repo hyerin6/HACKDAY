@@ -87,7 +87,7 @@ spring:
       format_sql: true
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: sns_dev
     password: 1234
