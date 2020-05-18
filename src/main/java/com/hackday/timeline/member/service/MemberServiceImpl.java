@@ -17,6 +17,7 @@ import com.hackday.timeline.subscription.repository.SubsRepository;
 import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
@@ -27,7 +28,6 @@ public class MemberServiceImpl implements MemberService {
 		this.subsRepository = subsRepository;
 	}
 
-	@Transactional
 	@Override
 	public void register(Member member) throws Exception {
 		Member memberEntity = new Member();
@@ -43,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Member read(Long userNo) throws UsernameNotFoundException {
 		return memberRepository.getOne(userNo);
 	}
@@ -59,8 +60,8 @@ public class MemberServiceImpl implements MemberService {
 		memberRepository.save(userEntity);
 	}
 
-	@Transactional
 	@Override
+	@Transactional(readOnly = true)
 	public List<MemberVO> listAll(Long userNo) throws Exception {
 		List<Member> memberList = memberRepository.findAll();
 		List<SubsVO> valueArray = subsRepository.memberSubsList(userNo);

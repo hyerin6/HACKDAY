@@ -20,7 +20,7 @@ spring:
 
   thymeleaf:
     view-names: thymeleaf/*
-    prefix: classpath:/templates/
+    prefix: /templates/
     suffix: .html
 
 cloud:
@@ -49,7 +49,7 @@ spring:
     database: mysql
     show_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -70,7 +70,7 @@ spring:
   slave:
     datasource:
       jdbcUrl: jdbc:mysql://27.96.134.60:3389/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
-      username: timeline
+      username: root
       password: timeline123
       driver-class-name: com.mysql.cj.jdbc.Driver
       testOnBorrow: true
@@ -79,6 +79,7 @@ logging:
   level:
     org.springframework.jdbc.datasource.SimpleDriverDataSource: DEBUG
     org.hibernate.SQL: DEBUG
+
 
 --- #hyerin-local
 spring:
@@ -111,6 +112,7 @@ spring:
     cache: false
     check-template-location: true
 
+
 --- #daehwan-local
 spring:
   profiles: daehwan-local
@@ -125,11 +127,21 @@ spring:
       show_sql: true
       format_sql: true
 
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: sns_dev
-    password: 1234
+  master:
+    datasource:
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
+      username: sns_dev
+      password: 1234
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      testOnBorrow: true
+
+    slave:
+      datasource:
+        jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
+        username: sns_dev
+        password: 1234
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        testOnBorrow: true
 
   thymeleaf:
     cache: false
@@ -139,6 +151,7 @@ logging:
   level:
     org:
       hibernate: info
+
 
 --- #test
 spring:

@@ -12,6 +12,7 @@ import com.hackday.timeline.subscription.repository.SubsRepository;
 import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
+@Transactional
 public class SubsServiceImpl implements SubsService {
 
 	private final SubsRepository subsRepository;
@@ -22,7 +23,6 @@ public class SubsServiceImpl implements SubsService {
 		this.memberRepository = memberRepository;
 	}
 
-	@Transactional
 	@Override
 	public void register(Subscription subscription, Long subsUserNo) throws Exception {
 		Member member = memberRepository.getOne(subsUserNo);
@@ -32,6 +32,7 @@ public class SubsServiceImpl implements SubsService {
 
 	//내가 구독한 사람
 	@Override
+	@Transactional(readOnly = true)
 	public List<SubsVO> memberSubsList(Long userNo) throws Exception {
 		List<SubsVO> subsList = subsRepository.memberSubsList(userNo);
 		return subsList;
@@ -39,6 +40,7 @@ public class SubsServiceImpl implements SubsService {
 
 	//나를 구독한 사람
 	@Override
+	@Transactional(readOnly = true)
 	public List<SubsVO> subsMemberList(Long userNo) throws Exception {
 		List<SubsVO> subsList = subsRepository.subsMemberList(userNo);
 		return subsList;

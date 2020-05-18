@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	<div align="center" th:fragment="menu">
+		<table>
+			<tr>
+				<td width="60"><a href="../home.html" th:href="@{/}"
+								  th:text="#{header.home}">홈</a></td>
+				<th:block sec:authorize="!isAuthenticated()">
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+					<td width="100"><a href="../user/list.html"
+						th:href="@{/user/list}" th:text="#{menu.user}">유저 목록</a></td>
+					<td width="100"><a href="../post.jsp" th:href="@{/posts}"
+						th:text="#{menu.post}">타임 라인</a></td>
+					<td width="100"><a href="../subs/list.html" th:href="@{/subs/list}"
+									   th:text="#{menu.subs}">구독 목록</a></td>
+				</th:block>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
