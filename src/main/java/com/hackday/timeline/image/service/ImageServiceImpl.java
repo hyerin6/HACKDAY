@@ -1,6 +1,7 @@
 package com.hackday.timeline.image.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hackday.timeline.image.domain.Image;
 import com.hackday.timeline.image.repository.ImageRepository;
@@ -9,9 +10,9 @@ import com.hackday.timeline.utils.s3.S3Service;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-	private ImageRepository imageRepository;
+	private final ImageRepository imageRepository;
 
-	private S3Service s3Service;
+	private final S3Service s3Service;
 
 	public ImageServiceImpl(ImageRepository imageRepository, S3Service s3Service){
 		this.imageRepository = imageRepository;

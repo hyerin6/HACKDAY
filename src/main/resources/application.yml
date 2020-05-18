@@ -1,7 +1,7 @@
 spring:
   profiles:
-    active: daehwan-local
-    #active: hyerin-local
+    #active: daehwan-local
+    active: prod
 
   mvc:
     view:
@@ -42,6 +42,44 @@ spring:
   thymeleaf:
     cache: true
 
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    generate-ddl: true
+    database: mysql
+    show_sql: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        storage_engine: innodb
+        enable_lazy_load_no_trans: true
+
+  master:
+    datasource:
+      jdbcUrl: jdbc:mysql://27.96.134.60:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
+      username: timeline
+      password: timeline123
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      testOnBorrow: true
+
+  slave:
+    datasource:
+      jdbcUrl: jdbc:mysql://27.96.134.60:3389/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
+      username: timeline
+      password: timeline123
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      testOnBorrow: true
+
+logging:
+  level:
+    org.springframework.jdbc.datasource.SimpleDriverDataSource: DEBUG
+    org.hibernate.SQL: DEBUG
+
 --- #hyerin-local
 spring:
   profiles: hyerin-local
@@ -53,7 +91,7 @@ spring:
     database: mysql
     show_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -101,3 +139,29 @@ logging:
     org:
       hibernate: info
 
+--- #test
+spring:
+  profiles: test
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    generate-ddl: true
+    database: mysql
+    show_sql: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        storage_engine: innodb
+        enable_lazy_load_no_trans: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/sns_timeline?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: timeline
+    password: timeline123
