@@ -1,6 +1,5 @@
 spring:
   profiles:
-    #active: daehwan-local
     active: prod
 
   mvc:
@@ -34,6 +33,7 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
 
 --- #Production
 spring:
@@ -92,7 +92,7 @@ spring:
     database: mysql
     show_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -126,22 +126,12 @@ spring:
       show_sql: true
       format_sql: true
 
-  master:
-    datasource:
-      jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
-      username: sns_dev
-      password: 1234
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      testOnBorrow: true
-
-    slave:
-      datasource:
-        jdbcUrl: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
-        username: sns_dev
-        password: 1234
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        testOnBorrow: true
-
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sns_timeline?serverTimezone=UTC&useSSL=false
+    username: sns_dev
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    testOnBorrow: true
 
   thymeleaf:
     cache: false
