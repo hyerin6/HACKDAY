@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
@@ -20,6 +21,7 @@ import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.post.domain.Post;
 import com.hackday.timeline.post.request.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
@@ -38,14 +40,14 @@ public class PostController {
 
 	private final MemberService memberService;
 
-	public PostController(PostService postService, MemberService memberService){
+	public PostController(PostService postService, MemberService memberService) {
 		this.postService = postService;
 		this.memberService = memberService;
 	}
 
 	@ApiOperation(value = "게시글 호출", notes = "스크롤이 끝나면 호출됩니다.")
 	@GetMapping("/posts")
-	public String myBoard(Authentication authentication, Model model) {
+	public ModelAndView myBoard(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
@@ -53,16 +55,17 @@ public class PostController {
 
 		List<Post> posts = postService.getPosts(null, userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ?
-			null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
 		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
 		model.addAttribute("user", member);
-
-		return "posts/myBoard";
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("thymeleaf/subs/board");
+		return mv;
+		//return "/posts/myBoard";
 	}
 
 	@ApiOperation(value = "게시글 작성", notes = "글과 이미지를 저장합니다.")
@@ -99,13 +102,12 @@ public class PostController {
 	public String getFeeds(@PathVariable("id") Long userId, Model model) throws Exception {
 		List<Post> posts = postService.getPosts(null, userId);
 
-		if(posts.isEmpty()) {
+		if (posts.isEmpty()) {
 			model.addAttribute("user", memberService.read(userId));
 			return "posts/empty";
 		}
 
-		Long lastIdOfPosts = posts.isEmpty() ?
-			null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);

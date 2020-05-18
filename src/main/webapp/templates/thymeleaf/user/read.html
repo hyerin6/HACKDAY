@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/commonStyle.css">
 </head>
 <body>
 	<div layout:fragment="content">
@@ -27,23 +28,24 @@
 			</table>
 		</form>
 		<div>
-			<button type="submit" id="btnEdit" th:text="#{action.edit}">프로필 수정</button>
+			<button type="submit" id="btnEdit" th:text="#{action.edit}">프로필
+				수정</button>
 			<button type="submit" id="btnRemove" th:text="#{action.remove}">탈퇴</button>
 		</div>
-		<script>  
-			$(document).ready(function() {     
-				var formObj = $("#member");     
-				console.log(formObj);     
-				$("#btnEdit").on("click", function() {  
-					var userNo = $("#userNo");  
-					var userNoVal = userNo.val();     
-					self.location = "/user/modify?userNo=" + userNoVal; 
-				});     
-				$("#btnRemove").on("click", function() {  
-					formObj.attr("action", "remove");  
-					formObj.submit();  
-				});     
-			});   
+		<script>
+			$(document).ready(function() {
+				var formObj = $("#member");
+				console.log(formObj);
+				$("#btnEdit").on("click", function() {
+					var userNo = $("#userNo");
+					var userNoVal = userNo.val();
+					self.location = "/user/modify?userNo=" + userNoVal;
+				});
+				$("#btnRemove").on("click", function() {
+					formObj.attr("action", "remove");
+					formObj.submit();
+				});
+			});
 		</script>
 	</div>
 </body>

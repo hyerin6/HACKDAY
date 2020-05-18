@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/commonStyle.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
@@ -81,33 +82,48 @@
 			</div>
 		</div>
 		<script>
-			$(document).ready(
-				function() {
-					$("#myInput").on("keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-								$("#myTable tr").filter(
-									function() {
-										$(this).toggle(
-											$(this)
-													.text()
-													.toLowerCase()
-													.indexOf(value) > -1)
-								});
-					});
-					$("#myInput2").on("keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-								$("#myTable2 tr").filter(
-									function() {
-										$(this).toggle(
-											$(this)
-													.text()
-													.toLowerCase()
-													.indexOf(value) > -1)
-								});
-					});
-				});
+			$(document)
+					.ready(
+							function() {
+								$("#myInput")
+										.on(
+												"keyup",
+												function() {
+													var value = $(this).val()
+															.toLowerCase();
+													$("#myTable tr")
+															.filter(
+																	function() {
+																		$(this)
+																				.toggle(
+																						$(
+																								this)
+																								.text()
+																								.toLowerCase()
+																								.indexOf(
+																										value) > -1)
+																	});
+												});
+								$("#myInput2")
+										.on(
+												"keyup",
+												function() {
+													var value = $(this).val()
+															.toLowerCase();
+													$("#myTable2 tr")
+															.filter(
+																	function() {
+																		$(this)
+																				.toggle(
+																						$(
+																								this)
+																								.text()
+																								.toLowerCase()
+																								.indexOf(
+																										value) > -1)
+																	});
+												});
+							});
 		</script>
 	</div>
 </body>
