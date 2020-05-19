@@ -1,7 +1,5 @@
 package com.hackday.timeline.subscription.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +12,7 @@ import com.hackday.timeline.subscription.repository.SubsRepository;
 import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
+@Transactional
 public class SubsServiceImpl implements SubsService {
 
 	private final SubsRepository subsRepository;
@@ -25,7 +24,6 @@ public class SubsServiceImpl implements SubsService {
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void register(Subscription subscription, Long subsUserNo) throws Exception {
 		Member member = memberRepository.getOne(subsUserNo);
 		subscription.setSubsMember(member);
@@ -36,11 +34,7 @@ public class SubsServiceImpl implements SubsService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<SubsVO> memberSubsList(Long userNo) throws Exception {
-		List<Object[]> userlist = subsRepository.memberSubsList(userNo);
-		List<SubsVO> subsList = new ArrayList<>();
-		for (Object[] user : userlist) {
-			subsList.add(new SubsVO((Long)user[0], (Long)user[1], (String)user[2], (String)user[3], (Date)user[4]));
-		}
+		List<SubsVO> subsList = subsRepository.memberSubsList(userNo);
 		return subsList;
 	}
 
@@ -48,16 +42,11 @@ public class SubsServiceImpl implements SubsService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<SubsVO> subsMemberList(Long userNo) throws Exception {
-		List<Object[]> userlist = subsRepository.subsMemberList(userNo);
-		List<SubsVO> subsList = new ArrayList<>();
-		for (Object[] user : userlist) {
-			subsList.add(new SubsVO((Long)user[0], (Long)user[1], (String)user[2], (String)user[3], (Date)user[4]));
-		}
+		List<SubsVO> subsList = subsRepository.subsMemberList(userNo);
 		return subsList;
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void remove(Long subsNo) throws Exception {
 		subsRepository.deleteById(subsNo);
 	}

@@ -1,3 +1,4 @@
+  
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -137,13 +138,11 @@
     var minIdOfPosts = <c:out value="${minIdOfPosts}" />;
     var isLoading = false;
     var count = 4;
-
     $(window).scroll(function() {
         var window_height = window.innerHeight;
         if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) {
             if ($(window).scrollTop() == ($(document).height() - window_height)) {
                 isLoading = true; // 로딩 시작
-
                 $.ajax({
                     type: 'POST',
                     url: '/api/posts',
@@ -162,7 +161,6 @@
                         if(data.posts != null && data.posts.length != 0){
                             for(let i = 0; i < data.posts.length; ++i){
                                 var imagePath = data.posts[i].image == null ? 'https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg' : data.posts[i].image.filePath;
-
                                 $(".posts").append(
                                     "<li>\n" +
                                     "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp</a></div>\n" +
@@ -232,7 +230,6 @@
             }
         }
     });
-
     function update_btn(id, content) {
         $.ajax({
             type: 'PATCH',

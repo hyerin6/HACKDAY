@@ -55,7 +55,7 @@ public class Member {
 	private Date regDate;
 
 	@UpdateTimestamp
-	Date upd_date;
+	private Date upd_date;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")

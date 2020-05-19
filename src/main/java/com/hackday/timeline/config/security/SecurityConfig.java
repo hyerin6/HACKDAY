@@ -14,11 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.hackday.timeline.common.security.CustomAccessDeniedHandler;
 import com.hackday.timeline.common.security.CustomLoginSuccessHandler;
+import com.hackday.timeline.common.security.CustomLogoutSuccessHandler;
 import com.hackday.timeline.common.security.CustomUserDetailsService;
 
 @Configuration
@@ -34,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-			"/swagger-ui.html", "/webjars/**", "/swagger/**", "/js/**", "/favicon.ico", "/webjars/**");
+			"/swagger-ui.html", "/webjars/**", "/swagger/**", "/js/**", "/favicon.ico", "/webjars/**", "/css/**");
 	}
 
 	@Override
@@ -59,7 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutUrl("/auth/logout")
 			.invalidateHttpSession(true)
 			//로그아웃 시 상태유지 쿠키 삭제
-			.deleteCookies("remember-me", "JSESSION_ID");
+			.deleteCookies("remember-me", "JSESSION_ID")
+			.logoutSuccessHandler(createLogoutSuccessHandler());
 
 		http.exceptionHandling()
 			//CustomAccessDeniedHandler를 접근 거부 처리자로 지정
@@ -67,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		//데이터 소스를 지정하고 테이블을 이용하여 기존 로그인 정보를 기록
 		http.rememberMe()
-			.key("token")
+			.key("timeline")
 			.tokenRepository(createJDBCRepository())
 			//쿠기 유효시간 지정
 			.tokenValiditySeconds(60 * 60 * 24);
@@ -95,6 +98,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AccessDeniedHandler createAccessDeniedHandler() {
 		return new CustomAccessDeniedHandler();
+	}
+
+	@Bean
+	public LogoutSuccessHandler createLogoutSuccessHandler() {
+		return new CustomLogoutSuccessHandler();
 	}
 
 	@Bean
