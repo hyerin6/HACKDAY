@@ -138,6 +138,7 @@
     var minIdOfPosts = <c:out value="${minIdOfPosts}" />;
     var isLoading = false;
     var count = 4;
+
     $(window).scroll(function() {
         var window_height = window.innerHeight;
         if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) {
@@ -230,6 +231,7 @@
             }
         }
     });
+
     function update_btn(id, content) {
         $.ajax({
             type: 'PATCH',

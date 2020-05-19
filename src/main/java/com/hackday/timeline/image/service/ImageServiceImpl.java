@@ -8,6 +8,7 @@ import com.hackday.timeline.image.repository.ImageRepository;
 import com.hackday.timeline.utils.s3.S3Service;
 
 @Service
+@Transactional
 public class ImageServiceImpl implements ImageService {
 
 	private final ImageRepository imageRepository;
@@ -20,14 +21,12 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public Image saveImage(String filePath, String fileName) {
 		Image image = new Image(filePath, fileName);
 		return imageRepository.save(image);
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void deleteImage(Long id) {
 		s3Service.deleteFile(imageRepository.findOneById(id));
 		imageRepository.deleteById(id);

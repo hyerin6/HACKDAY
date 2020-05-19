@@ -60,7 +60,6 @@ public class PostApiController {
 	@ApiOperation(value = "다른 사용자가 작성한 게시글 조회", notes = "커서기반으로 5개의 게시글을 조회합니다.")
 	@PostMapping("/api/feeds")
 	public @ResponseBody PostsResponse getPosts(@RequestBody GetFriendPostsRequest getFriendPostsRequest) {
-
 		List<Post> posts = postService.getPosts(getFriendPostsRequest.getLastIdOfPosts(), getFriendPostsRequest.getUserId());
 
 		Long lastIdOfPosts = posts.isEmpty() ?

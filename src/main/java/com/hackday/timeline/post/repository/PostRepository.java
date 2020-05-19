@@ -51,5 +51,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			+ "ORDER BY id DESC, reg_date DESC LIMIT 5")
 	public List<Post> findByIdAndSubsUserId(Long postId, Long userId);
 
-
 }
