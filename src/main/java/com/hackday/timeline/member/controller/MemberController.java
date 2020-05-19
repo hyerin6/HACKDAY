@@ -51,7 +51,7 @@ public class MemberController {
 
 	@ApiOperation(value = "회원 가입 요청", notes = "회원 가입을 요청합니다.")
 	@PostMapping("/register")
-	public ModelAndView register(@Validated Member member, BindingResult result, Model model, RedirectAttributes rttr)
+	public ModelAndView register(@Validated Member member, BindingResult result, RedirectAttributes rttr)
 		throws Exception {
 		ModelAndView mv = new ModelAndView();
 
@@ -94,7 +94,7 @@ public class MemberController {
 		Long userNo = member.getUserNo();
 
 		member = memberService.read(userNo);
-		model.addAttribute(member);
+		model.addAttribute("member", member);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/read");
@@ -102,19 +102,21 @@ public class MemberController {
 	}
 
 	@ApiOperation(value = "회원 탈퇴 요청", notes = "회원 탈퇴를 요청합니다.")
-	@PostMapping("remove")
+	@PostMapping("/remove")
 	public String remove(Long userNo, RedirectAttributes rttr, Authentication authentication)
 		throws Exception {
 		memberService.remove(userNo);
 		rttr.addFlashAttribute("msg", "REMOE");
-		authentication.setAuthenticated(false);
+		if (authentication != null) {
+			authentication.setAuthenticated(false);
+		}
 		return "redirect:/";
 	}
 
 	@ApiOperation(value = "프로필 수정 화면", notes = "프로필 수정 페이지를 보여줍니다.")
 	@GetMapping("/modify")
 	public ModelAndView modifyForm(Long userNo, Model model) throws Exception {
-		model.addAttribute(memberService.read(userNo));
+		model.addAttribute("member", memberService.read(userNo));
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/modify");
