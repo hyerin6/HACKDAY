@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +14,10 @@ import com.hackday.timeline.member.domain.MemberAuth;
 import com.hackday.timeline.member.repository.MemberRepository;
 import com.hackday.timeline.member.vo.MemberVO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
+import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
@@ -26,7 +29,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void register(Member member) throws Exception {
 		Member memberEntity = new Member();
 		memberEntity.setUserId(member.getUserId());
@@ -42,19 +44,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Member read(Long userNo) throws Exception {
+	public Member read(Long userNo) throws UsernameNotFoundException {
 		return memberRepository.getOne(userNo);
 	}
 
 	@Override
-	@Transactional(readOnly = false)
-	public void remove(Long userNo) throws Exception {
+	public void remove(Long userNo) throws UsernameNotFoundException {
 		memberRepository.deleteById(userNo);
 	}
 
 	@Override
-	@Transactional(readOnly = false)
-	public void modify(Member member) throws Exception {
+	public void modify(Member member) throws UsernameNotFoundException {
 		Member userEntity = memberRepository.getOne(member.getUserNo());
 		userEntity.setUserName(member.getUserName());
 		memberRepository.save(userEntity);
@@ -64,22 +64,34 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = true)
 	public List<MemberVO> listAll(Long userNo) throws Exception {
 		List<Member> memberList = memberRepository.findAll();
-		List<Object[]> valueArray = subsRepository.memberSubsList(userNo);
-		List<MemberVO> voList = new ArrayList<>();
+		List<SubsVO> valueArray = subsRepository.memberSubsList(userNo);
+		List<MemberVO> memberVOList = new ArrayList<>();
 		Map<Long, Long> map = new HashMap<>();
 
-		for (Object[] array : valueArray) {
-			map.put((Long)array[1], (Long)array[0]);
+		for (SubsVO subsVO : valueArray) {
+			map.put(subsVO.getUserNo(), subsVO.getSubsNo());
 		}
 
-		for (Member m : memberList) {
-			if (map.containsKey(m.getUserNo())) {
-				voList.add(new MemberVO(m.getUserNo(), m.getUserId(), m.getUserName(), true, map.get(m.getUserNo())));
+		memberList.stream().forEach(member -> {
+
+			if (map.containsKey(member.getUserNo())) {
+				memberVOList.add(MemberVO.builder()
+					.userNo(member.getUserNo())
+					.userId(member.getUserId())
+					.userName(member.getUserName())
+					.subsOk(true)
+					.subsNo(map.get(member.getUserNo()))
+					.build());
 			} else {
-				voList.add(new MemberVO(m.getUserNo(), m.getUserId(), m.getUserName(), false));
+				memberVOList.add(MemberVO.builder()
+					.userNo(member.getUserNo())
+					.userId(member.getUserId())
+					.userName(member.getUserName())
+					.subsOk(false)
+					.build());
 			}
-		}
-		return voList;
+		});
+		return memberVOList;
 	}
 
 }

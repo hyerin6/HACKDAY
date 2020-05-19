@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/commonStyle.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
@@ -23,11 +24,11 @@
 		<input class="form-control" id="myInput" type="text"
 			placeholder="Search.."> <br>
 		<table class="table table-bordered">
-			<thead align = "center">
+			<thead align="center">
 				<tr>
-					<th width= 40% th:text="#{user.userId}">아이디</th>
-					<th width= 40% th:text="#{user.userName}">사용자명</th>
-					<th width= 20%></th>
+					<th width=40% th:text="#{user.userId}">아이디</th>
+					<th width=40% th:text="#{user.userName}">사용자명</th>
+					<th width=20%></th>
 				</tr>
 			</thead>
 			<tbody id="myTable">
@@ -58,20 +59,29 @@
 
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script>
-			$(document).ready(
-				function() {
-					$("#myInput").on("keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-							$("#myTable tr").filter(
-								function() {
-									$(this).toggle(
-										$(this).text()
-												.toLowerCase()
-												.indexOf(value) > -1)
+			$(document)
+					.ready(
+							function() {
+								$("#myInput")
+										.on(
+												"keyup",
+												function() {
+													var value = $(this).val()
+															.toLowerCase();
+													$("#myTable tr")
+															.filter(
+																	function() {
+																		$(this)
+																				.toggle(
+																						$(
+																								this)
+																								.text()
+																								.toLowerCase()
+																								.indexOf(
+																										value) > -1)
+																	});
+												});
 							});
-					});
-			});
 		</script>
 	</div>
 </body>

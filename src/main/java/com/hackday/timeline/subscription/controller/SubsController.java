@@ -16,7 +16,16 @@ import com.hackday.timeline.subscription.domain.Subscription;
 import com.hackday.timeline.subscription.service.SubsService;
 import com.hackday.timeline.subscription.vo.SubsVO;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
+
 @Controller
+@Api(tags = {"구독 API"})
+@SwaggerDefinition(tags = {
+	@Tag(name = "구독 API", description = "구독 관리 CRUD")
+})
 @RequestMapping("/subs")
 public class SubsController {
 
@@ -26,7 +35,7 @@ public class SubsController {
 		this.service = service;
 	}
 
-	//구독 등록
+	@ApiOperation(value = "구독 요청", notes = "구독 요청을 합니다.")
 	@GetMapping("/register")
 	public ModelAndView register(Long subsUserNo, Authentication authentication, RedirectAttributes rttr)
 		throws Exception {
@@ -44,7 +53,7 @@ public class SubsController {
 		return mv;
 	}
 
-	//구독 리스트
+	@ApiOperation(value = "구독 리스트 화면", notes = "구독 리스트 페이지를 보여줍니다.")
 	@GetMapping("/list")
 	public ModelAndView list(Model model, Authentication authentication) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -59,7 +68,7 @@ public class SubsController {
 		return mv;
 	}
 
-	//구독 취소
+	@ApiOperation(value = "구독 취소 요청", notes = "구독 취소를 요청 합니다.")
 	@GetMapping("/remove")
 	public ModelAndView remove(Long subsNo, String view, RedirectAttributes rttr) throws Exception {
 		rttr.addFlashAttribute("msg", "REMOVE");

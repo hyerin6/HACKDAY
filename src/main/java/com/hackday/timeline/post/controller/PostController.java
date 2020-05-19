@@ -20,6 +20,7 @@ import com.hackday.timeline.member.service.MemberService;
 import com.hackday.timeline.post.domain.Post;
 import com.hackday.timeline.post.request.InsertPostDto;
 import com.hackday.timeline.post.service.PostService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
@@ -38,7 +39,7 @@ public class PostController {
 
 	private final MemberService memberService;
 
-	public PostController(PostService postService, MemberService memberService){
+	public PostController(PostService postService, MemberService memberService) {
 		this.postService = postService;
 		this.memberService = memberService;
 	}
@@ -53,8 +54,7 @@ public class PostController {
 
 		List<Post> posts = postService.getPosts(null, userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ?
-			null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
@@ -103,18 +103,17 @@ public class PostController {
 	@GetMapping("/{id}/feeds")
 	public String getFeeds(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
-
+    
 		if(posts.isEmpty()) {
 			try {
 				model.addAttribute("user", memberService.read(userId));
+        return "posts/empty";
 			} catch (Exception e) {
 				log.error("Read Member Error : " + e);
 				return "fail";
 			}
-		}
 
-		Long lastIdOfPosts = posts.isEmpty() ?
-			null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
