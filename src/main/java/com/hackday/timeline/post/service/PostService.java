@@ -23,4 +23,9 @@ public interface PostService {
 
 	public boolean hasErrors(InsertPostDto insertPostDto, BindingResult bindingResult);
 
+	public Long getMinIdOfSubsPosts(Long userId);
+
+	public List<Post> getTimelineFeeds(Long postId, Long userId);
+
+
 }

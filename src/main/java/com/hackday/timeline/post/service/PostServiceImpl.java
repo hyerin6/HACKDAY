@@ -1,6 +1,7 @@
 package com.hackday.timeline.post.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,14 +82,33 @@ public class PostServiceImpl implements PostService {
 	@Transactional(readOnly=true)
 	public List<Post> get(Long id, Long userId) {
 		return id == null ?
-			this.postRepository.findTop5ByUserIdOrderByRegDateDesc(userId) :
-			this.postRepository.findTop5ByUserIdAndIdLessThanOrderByIdDescRegDateDesc(userId, id);
+			this.postRepository.findByUserId(userId) :
+			this.postRepository.findByIdAndUserId(userId, id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Long getMinIdOfPosts(Long userId) {
 		return postRepository.findMinIdByUserId(userId);
+	}
+
+	@Override
+	public List<Post> getTimelineFeeds(Long postId, Long userId) {
+		final List<Post> posts = getFeeds(postId, userId);
+		return posts;
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Long getMinIdOfSubsPosts(Long userId) {
+		return postRepository.findMinIdBySubsUserId(userId);
+	}
+
+	@Transactional(readOnly=true)
+	public List<Post> getFeeds(Long postId, Long userId) {
+		return postId == null ?
+			this.postRepository.findBySubscriptionsUserId(postId, userId) :
+			this.postRepository. findByIdAndSubsUserId(postId, userId);
 	}
 
 }

@@ -32,8 +32,8 @@
 </div>
 <div class="main_nav tab_wrap">
     <ul class="profile-header-tab nav nav-tabs center tab_menu_container">
-        <li class="nav-item tab_menu_btn on"><a href="#" target="_self" class="tab_menu_btn1 tab_menu_btn1 on active show">${user.userName} POSTS</a></li>
-        <li class="nav-item tab_menu_btn on"><a href="/posts" target="_self" class="tab_menu_btn2" >MY POSTS</a></li>
+        <li class="nav-item tab_menu_btn on active show"><a href="#" target="_self" class="tab_menu_btn1 tab_menu_btn1 on active show">${user.userName} POSTS</a></li>
+        <li class="nav-item tab_menu_btn"><a href="/posts" target="_self" class="tab_menu_btn2" >MY POSTS</a></li>
         <li class="nav-item tab_menu_btn"><a href="/" target="_self" class="tab_menu_btn3" >HOME</a></li>
     </ul>
 </div>
