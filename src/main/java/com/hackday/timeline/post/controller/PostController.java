@@ -68,7 +68,7 @@ public class PostController {
 	@ApiOperation(value = "게시글 작성", notes = "글과 이미지를 저장합니다.")
 	@PostMapping("/posts")
 	public String insertPost(@Valid @ModelAttribute InsertPostDto insertPostDto, BindingResult bindingResult,
-		Authentication authentication, Model model) throws IOException {
+		Authentication authentication, Model model) {
 
 		if (postService.hasErrors(insertPostDto, bindingResult)) {
 			return "posts/myBoard";
@@ -77,7 +77,12 @@ public class PostController {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 
-		postService.insertPost(insertPostDto, member);
+		try {
+			postService.insertPost(insertPostDto, member);
+		} catch (IOException e) {
+			log.error("Insert Image Error : " + e);
+			return "fail";
+		}
 
 		return "redirect:/posts";
 	}
@@ -96,22 +101,58 @@ public class PostController {
 
 	@ApiOperation(value = "다른 사용자의 게시글 조회", notes = "PathVariable로 받은 userId 값의 post 목록을 조회합니다.")
 	@GetMapping("/{id}/feeds")
-	public String getFeeds(@PathVariable("id") Long userId, Model model) throws Exception {
+	public String getFeeds(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
-
-		if (posts.isEmpty()) {
-			model.addAttribute("user", memberService.read(userId));
-			return "posts/empty";
-		}
+    
+		if(posts.isEmpty()) {
+			try {
+				model.addAttribute("user", memberService.read(userId));
+        return "posts/empty";
+			} catch (Exception e) {
+				log.error("Read Member Error : " + e);
+				return "fail";
+			}
 
 		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
 		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
-		model.addAttribute("user", memberService.read(userId));
+
+		try {
+			model.addAttribute("user", memberService.read(userId));
+		} catch (Exception e) {
+			log.error("Read Member Error : " + e);
+			return "fail";
+		}
 
 		return "posts/userBoard";
+	}
+
+	@ApiOperation(value = "타임라인", notes = "내가 구독한 사용자들의 게시글을 모아볼 수 있습니다.")
+	@GetMapping("/timeline/feeds")
+	public String getTimeline(Authentication authentication, Model model) {
+		CustomUser customUser = (CustomUser)authentication.getPrincipal();
+		Member member = customUser.getMember();
+		Long userId = member.getUserNo();
+
+		List<Post> posts = postService.getTimelineFeeds(null, userId);
+
+		Long lastIdOfPosts = posts.isEmpty() ?
+			null : posts.get(posts.size() - 1).getId();
+
+		model.addAttribute("posts", posts);
+		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
+		model.addAttribute("user", member);
+		model.addAttribute("minIdOfSubsPosts", postService.getMinIdOfSubsPosts(member.getUserNo()));
+
+		return "posts/timeline";
+	}
+
+	@ApiOperation(value = "Fail", notes = "서비스 기능에 오류가 발생할 경우 출력되는 화면입니다.")
+	@GetMapping("/fail")
+	public String fail(){
+		return "/posts/fail";
 	}
 
 }
