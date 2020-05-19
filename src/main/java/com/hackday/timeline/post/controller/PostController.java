@@ -103,15 +103,16 @@ public class PostController {
 	@GetMapping("/{id}/feeds")
 	public String getFeeds(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
-    
-		if(posts.isEmpty()) {
+
+		if (posts.isEmpty()) {
 			try {
 				model.addAttribute("user", memberService.read(userId));
-        return "posts/empty";
+				return "posts/empty";
 			} catch (Exception e) {
 				log.error("Read Member Error : " + e);
 				return "fail";
 			}
+		}
 
 		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
 
@@ -121,12 +122,12 @@ public class PostController {
 
 		try {
 			model.addAttribute("user", memberService.read(userId));
+			return "posts/userBoard";
 		} catch (Exception e) {
 			log.error("Read Member Error : " + e);
 			return "fail";
 		}
 
-		return "posts/userBoard";
 	}
 
 	@ApiOperation(value = "타임라인", notes = "내가 구독한 사용자들의 게시글을 모아볼 수 있습니다.")
