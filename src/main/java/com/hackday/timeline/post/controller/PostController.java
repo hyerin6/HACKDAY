@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
@@ -47,7 +46,7 @@ public class PostController {
 
 	@ApiOperation(value = "게시글 호출", notes = "스크롤이 끝나면 호출됩니다.")
 	@GetMapping("/posts")
-	public ModelAndView myBoard(Authentication authentication, Model model) {
+	public String myBoard(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
@@ -62,10 +61,8 @@ public class PostController {
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
 		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
 		model.addAttribute("user", member);
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("thymeleaf/subs/board");
-		return mv;
-		//return "/posts/myBoard";
+
+		return "posts/myBoard";
 	}
 
 	@ApiOperation(value = "게시글 작성", notes = "글과 이미지를 저장합니다.")
