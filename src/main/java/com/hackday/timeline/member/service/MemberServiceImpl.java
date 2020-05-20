@@ -34,16 +34,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void register(Member member) throws Exception {
-		Member memberEntity = new Member();
-		memberEntity.setUserId(member.getUserId());
-		memberEntity.setUserPw(member.getUserPw());
-		memberEntity.setUserName(member.getUserName());
 
 		MemberAuth memberAuth = new MemberAuth();
 		memberAuth.setAuth("ROLE_USER");
-		memberEntity.addAuth(memberAuth);
+		member.addAuth(memberAuth);
 
-		memberRepository.save(memberEntity);
+		memberRepository.save(member);
 
 		mailService.mailSendWithMemberKey(member.getUserId());
 	}

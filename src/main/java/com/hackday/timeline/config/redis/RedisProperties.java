@@ -22,7 +22,7 @@ public class RedisProperties {
 
 		this.redisPort = redisPort;
 		this.redisHost = redisHost;
-		this.redisPassword = redisPassword;
+		//this.redisPassword = redisPassword;
 	}
 
 }

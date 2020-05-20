@@ -27,8 +27,11 @@ public class MailController {
 
 	@ApiOperation(value = "키 인증", notes = "회원가입 완료를 위해 키 값을 Y로 바꿔줍니다.")
 	@GetMapping("/update")
-	public String update(Long mailNo) throws Exception {
-		service.alterMemberKey(mailNo);
+	public String update(String key, String keyValue) throws Exception {
+		if (!service.checkKey(key, keyValue)) {
+			return "redirect:/mail/mailFailure";
+		}
+		service.authMemberKey(key);
 
 		return "redirect:/mail/mailSuccess";
 	}

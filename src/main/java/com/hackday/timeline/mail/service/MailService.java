@@ -6,5 +6,7 @@ public interface MailService {
 
 	public void mailSendWithMemberKey(String userId) throws Exception;
 
-	public void alterMemberKey(Long mailNo) throws Exception;
+	public void authMemberKey(String userId) throws Exception;
+
+	public boolean checkKey(String key, String keyValue) throws Exception;
 }
