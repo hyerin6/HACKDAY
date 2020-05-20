@@ -1,10 +1,12 @@
 package com.hackday.timeline.post.controller;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,14 +48,15 @@ public class PostController {
 
 	@ApiOperation(value = "게시글 호출", notes = "스크롤이 끝나면 호출됩니다.")
 	@GetMapping("/posts")
-	public String getMyPosts(Authentication authentication, Model model) {
+	public String myBoard(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
 
 		List<Post> posts = postService.getPosts(null, userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
+			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
@@ -100,10 +103,10 @@ public class PostController {
 
 	@ApiOperation(value = "다른 사용자의 게시글 조회", notes = "PathVariable로 받은 userId 값의 post 목록을 조회합니다.")
 	@GetMapping("/{id}/feeds")
-	public String getOtherUserPosts(@PathVariable("id") Long userId, Model model) {
+	public String getFeeds(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
 
-		if (posts.isEmpty()) {
+		if (CollectionUtils.isEmpty(posts)) {
 			try {
 				model.addAttribute("user", memberService.read(userId));
 				return "posts/empty";
@@ -113,7 +116,7 @@ public class PostController {
 			}
 		}
 
-		Long lastIdOfPosts = posts.isEmpty() ? null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ? null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
@@ -131,14 +134,14 @@ public class PostController {
 
 	@ApiOperation(value = "타임라인", notes = "내가 구독한 사용자들의 게시글을 모아볼 수 있습니다.")
 	@GetMapping("/timeline/feeds")
-	public String getTimelineFeeds(Authentication authentication, Model model) {
+	public String getTimeline(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
 
-		List<Post> posts = postService.getTimelineFeeds(null, userId);
+		List<Post> posts = postService.getFeeds(null, userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ?
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);

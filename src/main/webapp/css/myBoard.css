@@ -769,11 +769,15 @@ button {
     float: right;
 }
 
+.center-img{
+    width: 100%;
+    text-align: center
+ }
+
 .max-small {
-    width: auto; height: auto;
-    max-width: 300px;
-    max-height: 300px;
-    padding-left: 150px;
+    width: 100%;
+    max-width: 500px;
+    padding-left: 50px;
 }
 
 .empty-img {

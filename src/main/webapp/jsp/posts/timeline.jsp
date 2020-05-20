@@ -44,12 +44,6 @@
                         <div class="tab-content p-0">
                             <div class="tab-pane fade active show tab_box1 tab_box on big-box" id="profile-posts">
                                 <ul class="timeline posts">
-                                    <li>
-                                        <div class="timeline-body" style="padding-bottom: 10px;">
-                                            <div class="form-group">
-                                                </div>
-                                            </div>
-                                    </li><br/>
                                     <c:forEach var="post" items="${ posts }" varStatus="vs">
                                         <li>
                                             <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
@@ -58,9 +52,11 @@
                                                     <span class="username">${post.user.userName}</span>
                                                     <span class="date pull-right text-muted">${post.regDate}</span>
                                                 </div>
-                                                <div class="timeline-content">
-                                                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
-                                                </div><br/>
+                                                <div class="center-img">
+                                                    <div class="timeline-content max-small">
+                                                        <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
+                                                    </div><br/>
+                                                </div>
                                                 <div class="timeline-content">
                                                     <p class="post">${post.content}</p>
                                                 </div>
@@ -85,7 +81,6 @@
     var lastIdOfPosts = <c:out value="${lastIdOfPosts}" />;
     var minIdOfSubsPosts = <c:out value="${minIdOfSubsPosts}" />;
     var isLoading = false;
-    var count = 4;
 
     $(window).scroll(function() {
         var window_height = window.innerHeight;
@@ -107,7 +102,6 @@
                     success: function (data) {
                         console.log(data);
                         lastIdOfPosts = data.lastIdOfPosts;
-                        count += 5;
                         if(data.posts != null && data.posts.length != 0){
                             for(let i = 0; i < data.posts.length; ++i){
                                 var imagePath = data.posts[i].image == null ? 'https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg' : data.posts[i].image.filePath;
@@ -120,9 +114,11 @@
                                     "<span class=\"username\">" + data.posts[i].user.userName + "</span>\n" +
                                     "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +
-                                    "<div class=\"timeline-content\">\n" +
+                                    "<div class=\"center-img\">\n" +
+                                    "<div class=\"timeline-content max-small\">\n" +
                                     "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'\">\n" +
-                                    "</div><br/>\n" +
+                                    "</div><br/>" +
+                                    "</div>" +
                                     "<div class=\"timeline-content\">\n" +
                                     "<p class=\"post\">" + data.posts[i].content + "</p>\n" +
                                     "</div>\n" +

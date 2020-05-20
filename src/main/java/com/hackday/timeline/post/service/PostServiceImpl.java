@@ -2,8 +2,13 @@ package com.hackday.timeline.post.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -22,19 +27,22 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class PostServiceImpl implements PostService {
 
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
 
-	private ImageService imageService;
+	private final ImageService imageService;
 
-	private S3Service s3Service;
+	private final S3Service s3Service;
 
-	public PostServiceImpl(PostRepository postRepository, ImageService imageService, S3Service s3Service) {
+	public PostServiceImpl(PostRepository postRepository,
+		ImageService imageService,
+		S3Service s3Service) {
 		this.postRepository = postRepository;
 		this.imageService = imageService;
 		this.s3Service = s3Service;
 	}
 
 	@Override
+	@CacheEvict(value = "minIdOfPosts", key = "'myMinIdOfPosts-' +  #member.userNo")
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
@@ -60,6 +68,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@CacheEvict(value = "minIdOfPosts", key = "'myMinIdOfPosts-' +  #member.userNo")
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
 
@@ -71,12 +80,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> getPosts(Long postId, Long userId) {
-		return  get(postId, userId);
-	}
-
 	@Transactional(readOnly=true)
-	public List<Post> get(Long id, Long userId) {
+	@Cacheable(cacheNames="posts", key = "'myFeeds-' + #id + '-' + #userId")
+	public List<Post> getPosts(Long id, Long userId) {
 		return id == null ?
 			this.postRepository.findByUserId(userId) :
 			this.postRepository.findByIdAndUserId(userId, id);
@@ -84,25 +90,33 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional(readOnly=true)
+	@Cacheable(cacheNames="subsPosts", key = "'feeds-' + #id + '-' + #userId")
+	public List<Post> getSubsPosts(Long id, Long userId) {
+		return id == null ?
+			this.postRepository.findByUserId(userId) :
+			this.postRepository.findByIdAndUserId(userId, id);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	@Cacheable(value = "minIdOfPosts", key = "'myMinIdOfPosts-' + #userId")
 	public Long getMinIdOfPosts(Long userId) {
 		return postRepository.findMinIdByUserId(userId);
 	}
 
 	@Override
-	public List<Post> getTimelineFeeds(Long postId, Long userId) {
-		return getFeeds(postId, userId);
-	}
-
-	@Override
 	@Transactional(readOnly=true)
+	@Cacheable(value = "minIdOfSubsPosts", key = "'subsMinIdOfPosts-' + #userId")
 	public Long getMinIdOfSubsPosts(Long userId) {
 		return postRepository.findMinIdBySubsUserId(userId);
 	}
 
+	@Override
 	@Transactional(readOnly=true)
+	@Cacheable(cacheNames="timeline", key = "'timeline-' + #postId + '-' + #userId")
 	public List<Post> getFeeds(Long postId, Long userId) {
 		return postId == null ?
-			this.postRepository.findBySubscriptionsUserId(postId, userId) :
+			this.postRepository.findBySubscriptionsUserId(userId) :
 			this.postRepository.findByIdAndSubsUserId(postId, userId);
 	}
 

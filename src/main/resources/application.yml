@@ -23,6 +23,11 @@ spring:
     prefix: /templates/
     suffix: .html
 
+  data:
+    redis:
+      repositories:
+        enabled: true
+
   cache: redis
   redis:
     host: 27.96.134.60
