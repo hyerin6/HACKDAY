@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/auth/login", "/user/register", "/login*").permitAll()
+			.antMatchers("/mail/**", "/error/**").permitAll()
 			.antMatchers("/").permitAll()
 			.antMatchers("/**").access("hasRole('ROLE_MEMBER')")
 			.anyRequest().authenticated();

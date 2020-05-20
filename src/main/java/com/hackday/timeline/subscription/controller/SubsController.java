@@ -70,9 +70,11 @@ public class SubsController {
 	@ApiOperation(value = "구독 취소 요청", notes = "구독 취소를 요청 합니다.")
 	@GetMapping("/remove")
 	public ModelAndView remove(Long subsNo, String redView, RedirectAttributes rttr, ModelAndView mv) throws Exception {
+		String path = "redirect:/" + redView + "/list";
+
 		rttr.addFlashAttribute("msg", "REMOVE");
 		service.remove(subsNo);
-		String path = "redirect:/" + redView + "/list";
+
 		mv.setViewName(path);
 		return mv;
 	}

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hackday.timeline.mail.service.MailService;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.domain.MemberAuth;
 import com.hackday.timeline.member.dto.MemberDTO;
@@ -22,10 +23,13 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
 	private final SubsRepository subsRepository;
+	private final MailService mailService;
 
-	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository) {
+	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository,
+		MailService mailService) {
 		this.memberRepository = memberRepository;
 		this.subsRepository = subsRepository;
+		this.mailService = mailService;
 	}
 
 	@Override
@@ -36,10 +40,12 @@ public class MemberServiceImpl implements MemberService {
 		memberEntity.setUserName(member.getUserName());
 
 		MemberAuth memberAuth = new MemberAuth();
-		memberAuth.setAuth("ROLE_MEMBER");
+		memberAuth.setAuth("ROLE_USER");
 		memberEntity.addAuth(memberAuth);
 
 		memberRepository.save(memberEntity);
+
+		mailService.mailSendWithMemberKey(member.getUserId());
 	}
 
 	@Override

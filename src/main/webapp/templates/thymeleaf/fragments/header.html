@@ -12,8 +12,9 @@
 					th:href="@{/auth/login}" th:text="#{header.login}">로그인</a></td>
 			</tr>
 			<tr sec:authorize="isAuthenticated()">
-				<td width="100"><span sec:authentication="principal.username">이름~</span>님
+				<td width="100"><span sec:authentication="principal.username">이름~</span>
 				</td>
+				<td width = "4"><span style="margin-right:15px">님</span></td>
 				<td width="100"><a href="../user/read.html"
 					th:href="@{/user/read}" th:text="#{user.profile}">${user.profile}</a></td>
 				<td width="100">

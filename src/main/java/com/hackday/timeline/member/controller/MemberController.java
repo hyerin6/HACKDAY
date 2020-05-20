@@ -71,7 +71,7 @@ public class MemberController {
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		rttr.addFlashAttribute("userName", member.getUserName());
 
-		mv.setViewName("redirect:/");
+		mv.setViewName("redirect:/mail/mailWait?" + member.getUserId());
 		return mv;
 	}
 
