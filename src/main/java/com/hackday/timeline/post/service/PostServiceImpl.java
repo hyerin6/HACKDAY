@@ -1,7 +1,6 @@
 package com.hackday.timeline.post.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
 	private PostRepository postRepository;
@@ -35,11 +35,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
-		if(!insertPostDto.getImage().isEmpty()) {
+		if(insertPostDto.getImage() != null) {
 			String randomUUID = UUID.randomUUID().toString();
 			String path = s3Service.postImageUpload(insertPostDto.getImage(), randomUUID);
 			Image image = imageService.saveImage(path, randomUUID);
@@ -55,14 +54,12 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void modifyPost(InsertPostDto insertPostDto, Long postId, Member member) {
 		Post post = postRepository.findById(postId).get();
 		post.setContent(insertPostDto.getContent());
 	}
 
 	@Override
-	@Transactional(readOnly = false)
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
 
@@ -75,8 +72,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> getPosts(Long postId, Long userId) {
-		final List<Post> posts = get(postId, userId);
-		return posts;
+		return  get(postId, userId);
 	}
 
 	@Transactional(readOnly=true)
@@ -94,8 +90,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> getTimelineFeeds(Long postId, Long userId) {
-		final List<Post> posts = getFeeds(postId, userId);
-		return posts;
+		return getFeeds(postId, userId);
 	}
 
 	@Override
@@ -108,7 +103,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> getFeeds(Long postId, Long userId) {
 		return postId == null ?
 			this.postRepository.findBySubscriptionsUserId(postId, userId) :
-			this.postRepository. findByIdAndSubsUserId(postId, userId);
+			this.postRepository.findByIdAndSubsUserId(postId, userId);
 	}
 
 }

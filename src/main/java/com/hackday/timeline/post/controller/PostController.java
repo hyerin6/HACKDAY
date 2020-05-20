@@ -46,11 +46,10 @@ public class PostController {
 
 	@ApiOperation(value = "게시글 호출", notes = "스크롤이 끝나면 호출됩니다.")
 	@GetMapping("/posts")
-	public String myBoard(Authentication authentication, Model model) {
+	public String getMyPosts(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
-		log.info("GET myBoard userId = " + userId);
 
 		List<Post> posts = postService.getPosts(null, userId);
 
@@ -101,7 +100,7 @@ public class PostController {
 
 	@ApiOperation(value = "다른 사용자의 게시글 조회", notes = "PathVariable로 받은 userId 값의 post 목록을 조회합니다.")
 	@GetMapping("/{id}/feeds")
-	public String getFeeds(@PathVariable("id") Long userId, Model model) {
+	public String getOtherUserPosts(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
 
 		if (posts.isEmpty()) {
@@ -132,7 +131,7 @@ public class PostController {
 
 	@ApiOperation(value = "타임라인", notes = "내가 구독한 사용자들의 게시글을 모아볼 수 있습니다.")
 	@GetMapping("/timeline/feeds")
-	public String getTimeline(Authentication authentication, Model model) {
+	public String getTimelineFeeds(Authentication authentication, Model model) {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
