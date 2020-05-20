@@ -42,7 +42,7 @@
 						<td align="center" th:text="${member.userName}">${member.userName}</td>
 						<td align="center"><th:block th:if="${member.subsOk}">
 								<a
-									th:href="@{/subs/remove?subsNo={subsNo}&view=user(subsNo=${member.subsNo})}">
+									th:href="@{/subs/remove?subsNo={subsNo}&redView=user(subsNo=${member.subsNo})}">
 									<button class="btn btn-success" id="subsBtn">구독 중</button>
 								</a>
 							</th:block> <th:block th:if="!${member.subsOk}">

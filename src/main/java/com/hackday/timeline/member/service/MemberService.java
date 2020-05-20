@@ -3,7 +3,7 @@ package com.hackday.timeline.member.service;
 import java.util.List;
 
 import com.hackday.timeline.member.domain.Member;
-import com.hackday.timeline.member.vo.MemberVO;
+import com.hackday.timeline.member.dto.MemberDTO;
 
 public interface MemberService {
 
@@ -15,6 +15,8 @@ public interface MemberService {
 
 	public void modify(Member member) throws Exception;
 
-	public List<MemberVO> listAll(Long userNo) throws Exception;
+	public List<MemberDTO> listAll(Long userNo) throws Exception;
+
+	public boolean userIdCheck(String userId) throws Exception;
 
 }

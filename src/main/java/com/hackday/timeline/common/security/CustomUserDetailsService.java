@@ -22,10 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		log.info("userName :" + username);
 
 		Member member = repository.findByUserId(username).get(0);
+		String name = member.getUserName();
+		if (name == null) {
+			throw new UsernameNotFoundException("User not authorized.");
+		}
 
 		log.info("user: " + member);
 
 		return member == null ? null : new CustomUser(member);
-	}
 
+	}
 }

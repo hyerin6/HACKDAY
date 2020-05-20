@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hackday.timeline.member.domain.Member;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
@@ -24,13 +25,12 @@ public class HomeController {
 
 	@ApiOperation(value = "Home", notes = "사용자 정보와 serverTime 을 보여줍니다.")
 	@GetMapping("/")
-	public ModelAndView home(Locale locale, Model model) {
+	public ModelAndView home(Locale locale, Model model, ModelAndView mv) {
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
 		model.addAttribute("serverTime", formattedDate);
-		ModelAndView mv = new ModelAndView();
 		model.addAttribute("member", new Member());
 		mv.setViewName("thymeleaf/home");
 		return mv;

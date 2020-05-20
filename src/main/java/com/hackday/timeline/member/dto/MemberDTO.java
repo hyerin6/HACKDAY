@@ -1,4 +1,4 @@
-package com.hackday.timeline.member.vo;
+package com.hackday.timeline.member.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Builder
-public class MemberVO {
+public class MemberDTO {
 
 	private Long userNo;
 

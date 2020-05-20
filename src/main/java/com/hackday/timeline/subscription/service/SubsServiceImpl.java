@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.repository.MemberRepository;
 import com.hackday.timeline.subscription.domain.Subscription;
+import com.hackday.timeline.subscription.dto.SubsDTO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
-import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
 @Transactional
@@ -33,16 +33,16 @@ public class SubsServiceImpl implements SubsService {
 	//내가 구독한 사람
 	@Override
 	@Transactional(readOnly = true)
-	public List<SubsVO> memberSubsList(Long userNo) throws Exception {
-		List<SubsVO> subsList = subsRepository.memberSubsList(userNo);
+	public List<SubsDTO> memberSubsList(Long userNo) throws Exception {
+		List<SubsDTO> subsList = subsRepository.memberSubsList(userNo);
 		return subsList;
 	}
 
 	//나를 구독한 사람
 	@Override
 	@Transactional(readOnly = true)
-	public List<SubsVO> subsMemberList(Long userNo) throws Exception {
-		List<SubsVO> subsList = subsRepository.subsMemberList(userNo);
+	public List<SubsDTO> subsMemberList(Long userNo) throws Exception {
+		List<SubsDTO> subsList = subsRepository.subsMemberList(userNo);
 		return subsList;
 	}
 

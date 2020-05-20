@@ -28,9 +28,8 @@ public class CommonController {
 
 	@ApiOperation(value = "오류 화면", notes = "오류가 발생했을 때 보여주는 에러페이지를 보여줍니다.")
 	@GetMapping("/errorCommon")
-	public ModelAndView handleCommonError(HttpServletRequest request) {
+	public ModelAndView handleCommonError(HttpServletRequest request, ModelAndView mv) {
 		log.info("errorCommon");
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName(VIEW_PATH + "/errorCommon");
 
 		return mv;
@@ -38,10 +37,9 @@ public class CommonController {
 
 	@ApiOperation(value = "접근 거부 페이지", notes = "접근 거부가 일어난 경우에 보여주는 에러페이지를 보여줍니다.")
 	@GetMapping("/accessError")
-	public ModelAndView accessDenied(Authentication auth, Model model) {
+	public ModelAndView accessDenied(Authentication auth, Model model, ModelAndView mv) {
 		log.info("access Denied : " + auth);
 		model.addAttribute("msg", "Access Denied");
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName(VIEW_PATH + "/accessError");
 		return mv;
 	}
