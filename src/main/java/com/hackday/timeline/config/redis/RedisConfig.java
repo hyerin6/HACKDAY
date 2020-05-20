@@ -45,14 +45,4 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return redisTemplate;
 	}
 
-	// @Bean
-	// @Override
-	// public CacheManager cacheManager() {
-	// 	RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
-	// 	RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
-	// 		.entryTtl(Duration.ofMinutes(10L));
-	// 	builder.cacheDefaults(configuration);
-	// 	return builder.build();
-	// }
-
 }
