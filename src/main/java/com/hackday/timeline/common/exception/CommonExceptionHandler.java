@@ -31,6 +31,8 @@ public class CommonExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handle(Exception ex, Model model) {
 		log.info("handle exception " + ex.toString());
+		ex.printStackTrace();
+
 		ModelAndView mv = new ModelAndView();
 		model.addAttribute("exception", ex);
 		mv.setViewName("thymeleaf/error/errorCommon");

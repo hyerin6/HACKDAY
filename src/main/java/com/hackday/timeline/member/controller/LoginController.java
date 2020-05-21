@@ -1,5 +1,6 @@
 package com.hackday.timeline.member.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,13 @@ public class LoginController {
 
 	@ApiOperation(value = "로그인 화면", notes = "로그인 페이지를 보여줍니다.")
 	@GetMapping("/login")
-	public ModelAndView loginForm(String error, String logout, Model model) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView loginForm(String error, String logout, Model model, Authentication authentication,
+		ModelAndView mv) throws Exception {
 
+		if (authentication != null) {
+			mv.setViewName("thymeleaf/home");
+			return mv;
+		}
 		if (error != null) {
 			model.addAttribute("error", "틀린 정보, 다시 입력해주세요.");
 			mv.setViewName("thymeleaf/auth/loginForm");

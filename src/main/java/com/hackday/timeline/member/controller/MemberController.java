@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hackday.timeline.common.security.domain.CustomUser;
 import com.hackday.timeline.member.domain.Member;
+import com.hackday.timeline.member.dto.MemberDTO;
 import com.hackday.timeline.member.service.MemberService;
-import com.hackday.timeline.member.vo.MemberVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,8 +43,7 @@ public class MemberController {
 
 	@ApiOperation(value = "회원 가입 화면", notes = "회원 가입 페이지를 보여줍니다.")
 	@GetMapping("/register")
-	public ModelAndView registerForm(Member member, Model model) throws Exception {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView registerForm(Member member, Model model, ModelAndView mv) throws Exception {
 		model.addAttribute("member", new Member());
 		mv.setViewName("thymeleaf/user/register");
 		return mv;
@@ -51,10 +51,14 @@ public class MemberController {
 
 	@ApiOperation(value = "회원 가입 요청", notes = "회원 가입을 요청합니다.")
 	@PostMapping("/register")
-	public ModelAndView register(@Validated Member member, BindingResult result, RedirectAttributes rttr)
-		throws Exception {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView register(@Validated Member member, BindingResult result, RedirectAttributes rttr,
+		ModelAndView mv) throws Exception {
+		String userId = member.getUserId();
 
+		if (memberService.userIdCheck(userId)) {
+			FieldError fieldError = new FieldError("member", "userId", "아이디가 이미 존재합니다.");
+			result.addError(fieldError);
+		}
 		if (result.hasErrors()) {
 			mv.setViewName("thymeleaf/user/register");
 			return mv;
@@ -67,27 +71,26 @@ public class MemberController {
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		rttr.addFlashAttribute("userName", member.getUserName());
 
-		mv.setViewName("redirect:/");
+		mv.setViewName("redirect:/mail/mailWait?" + member.getUserId());
 		return mv;
 	}
 
 	@ApiOperation(value = "유저 리스트 화면", notes = "유저 리스트 페이지를 보여줍니다.")
 	@GetMapping("/list")
-	public ModelAndView list(Model model, Authentication authentication) throws Exception {
+	public ModelAndView list(Model model, Authentication authentication, ModelAndView mv) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 		Member member = customUser.getMember();
 		Long userNo = member.getUserNo();
-		List<MemberVO> memberList = memberService.listAll(userNo);
+		List<MemberDTO> memberList = memberService.listAll(userNo);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("myNo", userNo);
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/list");
 		return mv;
 	}
 
 	@ApiOperation(value = "프로필 화면", notes = "회원 가입 페이지를 보여줍니다.")
 	@GetMapping("/read")
-	public ModelAndView read(Model model, Authentication authentication) throws Exception {
+	public ModelAndView read(Model model, Authentication authentication, ModelAndView mv) throws Exception {
 		CustomUser customUser = (CustomUser)authentication.getPrincipal();
 
 		Member member = customUser.getMember();
@@ -96,7 +99,6 @@ public class MemberController {
 		member = memberService.read(userNo);
 		model.addAttribute("member", member);
 
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/read");
 		return mv;
 	}
@@ -115,10 +117,9 @@ public class MemberController {
 
 	@ApiOperation(value = "프로필 수정 화면", notes = "프로필 수정 페이지를 보여줍니다.")
 	@GetMapping("/modify")
-	public ModelAndView modifyForm(Long userNo, Model model) throws Exception {
+	public ModelAndView modifyForm(Long userNo, Model model, ModelAndView mv) throws Exception {
 		model.addAttribute("member", memberService.read(userNo));
 
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("thymeleaf/user/modify");
 		return mv;
 	}

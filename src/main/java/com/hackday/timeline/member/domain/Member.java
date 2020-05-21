@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,7 +42,8 @@ public class Member implements Serializable {
 	private Long userNo;
 
 	@NotBlank
-	@Column(length = 25, nullable = false)
+	@Column(length = 50, nullable = false)
+	@Email
 	private String userId;
 
 	@NotBlank

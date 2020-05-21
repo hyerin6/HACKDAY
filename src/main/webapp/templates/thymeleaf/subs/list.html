@@ -44,7 +44,7 @@
 								<td align="center" th:text="${ms.userId}">${member.userId}</td>
 								<td align="center" th:text="${ms.userName}">${member.userName}</td>
 								<td><a
-									th:href="@{/subs/remove?subsNo={subsNo}&view=subs(subsNo=${ms.subsNo})}">
+									th:href="@{/subs/remove?subsNo={subsNo}&redView=subs(subsNo=${ms.subsNo})}">
 										<button class="btn btn-success" id="subsBtn"
 											th:text="#{subs.action.remove}">구독 취소</button>
 								</a></td>

@@ -1,8 +1,9 @@
 package com.hackday.timeline.config.redis;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+import lombok.Getter;
 
 @Getter
 @Configuration
@@ -21,7 +22,7 @@ public class RedisProperties {
 
 		this.redisPort = redisPort;
 		this.redisHost = redisHost;
-		this.redisPassword = redisPassword;
+		//this.redisPassword = redisPassword;
 	}
 
 }

@@ -22,13 +22,25 @@ spring:
     view-names: thymeleaf/*
     prefix: /templates/
     suffix: .html
+    
+  mail:
+       default-encoding: UTF-8
+       host: smtp.gmail.com
+       username: hackdaytimeline@gmail.com
+       password: timeline123!
+       port: 587
+       properties:
+         mail:
+           smtp:
+             auth: true
+             starttls:
+               enable: true
+       protocol: smtp
+       test-connection: false
 
-  data:
-    redis:
-      repositories:
-        enabled: true
+  cache:
+    type: redis
 
-  cache: redis
   redis:
     host: 27.96.134.60
     port: 6379

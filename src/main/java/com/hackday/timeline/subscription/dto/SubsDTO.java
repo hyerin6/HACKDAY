@@ -1,4 +1,4 @@
-package com.hackday.timeline.subscription.vo;
+package com.hackday.timeline.subscription.dto;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class SubsVO {
+public class SubsDTO {
 
 	private Long subsNo;
 

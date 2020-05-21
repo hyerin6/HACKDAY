@@ -9,12 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hackday.timeline.mail.service.MailService;
 import com.hackday.timeline.member.domain.Member;
 import com.hackday.timeline.member.domain.MemberAuth;
+import com.hackday.timeline.member.dto.MemberDTO;
 import com.hackday.timeline.member.repository.MemberRepository;
-import com.hackday.timeline.member.vo.MemberVO;
+import com.hackday.timeline.subscription.dto.SubsDTO;
 import com.hackday.timeline.subscription.repository.SubsRepository;
-import com.hackday.timeline.subscription.vo.SubsVO;
 
 @Service
 @Transactional
@@ -22,24 +23,25 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
 	private final SubsRepository subsRepository;
+	private final MailService mailService;
 
-	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository) {
+	public MemberServiceImpl(MemberRepository memberRepository, SubsRepository subsRepository,
+		MailService mailService) {
 		this.memberRepository = memberRepository;
 		this.subsRepository = subsRepository;
+		this.mailService = mailService;
 	}
 
 	@Override
 	public void register(Member member) throws Exception {
-		Member memberEntity = new Member();
-		memberEntity.setUserId(member.getUserId());
-		memberEntity.setUserPw(member.getUserPw());
-		memberEntity.setUserName(member.getUserName());
 
 		MemberAuth memberAuth = new MemberAuth();
-		memberAuth.setAuth("ROLE_MEMBER");
-		memberEntity.addAuth(memberAuth);
+		memberAuth.setAuth("ROLE_USER");
+		member.addAuth(memberAuth);
 
-		memberRepository.save(memberEntity);
+		memberRepository.save(member);
+
+		mailService.mailSendWithMemberKey(member.getUserId());
 	}
 
 	@Override
@@ -62,20 +64,20 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<MemberVO> listAll(Long userNo) throws Exception {
+	public List<MemberDTO> listAll(Long userNo) throws Exception {
 		List<Member> memberList = memberRepository.findAll();
-		List<SubsVO> valueArray = subsRepository.memberSubsList(userNo);
-		List<MemberVO> memberVOList = new ArrayList<>();
+		List<SubsDTO> valueArray = subsRepository.memberSubsList(userNo);
+		List<MemberDTO> memberVOList = new ArrayList<>();
 		Map<Long, Long> map = new HashMap<>();
 
-		for (SubsVO subsVO : valueArray) {
+		for (SubsDTO subsVO : valueArray) {
 			map.put(subsVO.getUserNo(), subsVO.getSubsNo());
 		}
 
 		memberList.stream().forEach(member -> {
 
 			if (map.containsKey(member.getUserNo())) {
-				memberVOList.add(MemberVO.builder()
+				memberVOList.add(MemberDTO.builder()
 					.userNo(member.getUserNo())
 					.userId(member.getUserId())
 					.userName(member.getUserName())
@@ -83,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
 					.subsNo(map.get(member.getUserNo()))
 					.build());
 			} else {
-				memberVOList.add(MemberVO.builder()
+				memberVOList.add(MemberDTO.builder()
 					.userNo(member.getUserNo())
 					.userId(member.getUserId())
 					.userName(member.getUserName())
@@ -92,6 +94,11 @@ public class MemberServiceImpl implements MemberService {
 			}
 		});
 		return memberVOList;
+	}
+
+	@Override
+	public boolean userIdCheck(String userId) throws Exception {
+		return memberRepository.userIdCheck(userId) == 1 ? true : false;
 	}
 
 }
