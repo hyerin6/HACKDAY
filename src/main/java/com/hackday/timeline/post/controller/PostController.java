@@ -61,8 +61,7 @@ public class PostController {
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
-		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId).getMinIdOfPosts()
-		);
+		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId).getMinIdOfPosts());
 		model.addAttribute("user", member);
 
 		return "posts/myBoard";
@@ -117,7 +116,7 @@ public class PostController {
 			}
 		}
 
-		Long lastIdOfPosts = posts.isEmpty() ?
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
@@ -143,7 +142,7 @@ public class PostController {
 
 		List<Post> posts = postService.getFeeds(null, userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ?
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);

@@ -56,7 +56,7 @@
                                                             <form:label path="image" cssStyle="margin-left: 10px;">Image : </form:label>
                                                             <div class="col-sm-10">
                                                                 <form:input type="file" class="form-control" placeholder="IMAGE" path="image" cssStyle="margin-left: 5px; padding-right: 10px; margin-right: 25px;"/>
-                                                                <form:button class="btn-gradient blue mini" type="submit" cssStyle="float: right; margin-top: 2px;">Share</form:button>
+                                                                <form:button class="btn-gradient blue mini" type="submit" onClick="window.location.reload()" cssStyle="float: right; margin-top: 2px;">Share</form:button>
                                                             </div>
                                                         </div>
                                                         </form:form>
@@ -113,7 +113,7 @@
                                     </div>
                                 </form>
                             </span>
-                                                            <span class="input-group-btn p-l-10">
+                                                            <span class="input-group-btn p-l-10" onClick="window.location.reload()">
                                 <a href="/posts/${post.id}" class="btn-gradient blue mini" style="margin-left: 15px;">delete</a>
                             </span>
                                                         </div>
@@ -203,7 +203,7 @@
                                     "<textarea id=\"mainText" + count+i + "\" path=\"content\" class=\"form-control\" rows=\"4\">" + data.posts[i].content + "</textarea><br/>\n" +
                                     "</div>\n" +
                                     "<div class=\"modal-footer\" id=\"layerpop" + count+i + "\">\n" +
-                                    "<input id=\"layerpop" + count+i + "\" class=\"btn-gradient blue mini\" type=\"button\" data-dismiss=\"modal\" onClick=\"update_btn(" + data.posts[i].id + ", " + "$('#mainText'.concat(" + count+i + ")).val());" + "\" value=\"완료\" style=\"float: right; margin-top: 15px;\"/>" +
+                                    "<input id=\"layerpop" + count+i + "\" class=\"btn-gradient blue mini\" type=\"button\" data-dismiss=\"modal\" onClick=\"update_btn(" + data.posts[i].id + ", " + "$('#mainText'.concat(" + count+i + ")).val());" + "\" value=\"완료\" onClick=\"window.location.reload()\" style=\"float: right; margin-top: 15px;\"/>" +
                                     "<button type=\"button\" class=\"btn-gradient blue mini\" data-dismiss=\"modal\" style=\"margin-top: 14px; margin-left: 10px;\">취소</button>\n" +
                                     "</div>\n" +
                                     "</div>\n" +
@@ -212,7 +212,7 @@
                                     "</form>\n" +
                                     "</span>\n" +
                                     "<span class=\"input-group-btn p-l-10\">\n" +
-                                    "<a href=\"/posts/" + data.posts[i].id + "\" class=\"btn-gradient blue mini\" style=\"margin-left: 15px;\">delete</a>\n" +
+                                    "<a href=\"/posts/" + data.posts[i].id + "\" class=\"btn-gradient blue mini\" onClick=\"window.location.reload()\" style=\"margin-left: 15px;\">delete</a>\n" +
                                     "</span>\n" +
                                     "</div>\n" +
                                     "</div>\n" +

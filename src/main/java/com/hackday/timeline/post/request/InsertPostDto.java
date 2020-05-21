@@ -1,7 +1,5 @@
 package com.hackday.timeline.post.request;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.web.multipart.MultipartFile;

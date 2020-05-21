@@ -1,7 +1,5 @@
 package com.hackday.timeline.post.request;
 
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 
