@@ -2,6 +2,7 @@ package com.hackday.timeline.post.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.validation.BindingResult;
 
@@ -21,11 +22,13 @@ public interface PostService {
 
 	public List<Post> getPosts(Long postId, Long userId);
 
+	public List<Post> getSubsPosts(Long id, Long userId);
+
 	public boolean hasErrors(InsertPostDto insertPostDto, BindingResult bindingResult);
 
 	public Long getMinIdOfSubsPosts(Long userId);
 
-	public List<Post> getTimelineFeeds(Long postId, Long userId);
+	public List<Post> getFeeds(Long postId, Long userId);
 
 
 }

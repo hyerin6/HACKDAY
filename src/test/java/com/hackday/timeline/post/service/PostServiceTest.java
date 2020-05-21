@@ -53,7 +53,7 @@ public class PostServiceTest {
 		Mockito.when(repo.findByUserId(this.member.getUserNo()))
 			.thenReturn(this.posts);
 
-		List<Post> postList = postService.get(null, this.member.getUserNo());
+		List<Post> postList = postService.getPosts(null, this.member.getUserNo());
 
 		Mockito.verify(repo).findByUserId(this.member.getUserNo());
 		assertEquals(posts, postList);
@@ -64,7 +64,7 @@ public class PostServiceTest {
 		Mockito.when(repo.findByIdAndUserId(this.member.getUserNo(), this.post.getId()))
 			.thenReturn(this.posts);
 
-		List<Post> postList = postService.get(this.member.getUserNo(), this.post.getId());
+		List<Post> postList = postService.getPosts(this.member.getUserNo(), this.post.getId());
 
 		Mockito.verify(repo).findByIdAndUserId(this.member.getUserNo(),this.post.getId());
 		assertEquals(posts, postList);
@@ -94,12 +94,12 @@ public class PostServiceTest {
 
 	@Test
 	public void 타임라인의_postId가_null인_경우() {
-		Mockito.when(repo.findBySubscriptionsUserId(null, this.member.getUserNo()))
+		Mockito.when(repo.findBySubscriptionsUserId(this.member.getUserNo()))
 			.thenReturn(this.posts);
 
 		List<Post> postList = postService.getFeeds(null, this.member.getUserNo());
 
-		Mockito.verify(repo).findBySubscriptionsUserId(null, this.member.getUserNo());
+		Mockito.verify(repo).findBySubscriptionsUserId(this.member.getUserNo());
 		assertEquals(this.posts, postList);
 	}
 

@@ -52,9 +52,11 @@
                         <span class="username">${user.userName}</span>
                         <span class="date pull-right text-muted">${post.regDate}</span>
                     </div>
-                    <div class="timeline-content">
-                        <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
-                    </div><br/>
+                    <div class="center-img">
+                        <div class="timeline-content max-small">
+                            <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
+                        </div><br/>
+                    </div>
                     <div class="timeline-content">
                         <p class="post">${post.content}</p>
                     </div>
@@ -112,14 +114,14 @@
                                     "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp</a></div>\n" +
                                     "<div class=\"timeline-body block\">\n" +
                                     "<div class=\"timeline-header\">\n" +
-                                    "<span class=\"username\">\n" +
-                                    "<p class=\"profile-link\">" + "${user.userName}" + "</p>\n" +
-                                    "</span>\n" +
+                                    "<span class=\"username\">" + "${user.userName}" + "</span>\n" +
                                     "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +
-                                    "<div class=\"timeline-content\">\n" +
-                                    "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
+                                    "<div class=\"center-img\">\n" +
+                                    "<div class=\"timeline-content max-small\">\n" +
+                                    "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'\">\n" +
                                     "</div><br/>\n" +
+                                    "</div>" +
                                     "<div class=\"timeline-content\">\n" +
                                     "<p class=\"post\">" + data.posts[i].content + "</p>\n" +
                                     "</div>\n" +

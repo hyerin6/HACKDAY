@@ -34,8 +34,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 		value = "SELECT * FROM Post WHERE user_id "
 			+ "IN (SELECT s.subs_user_no FROM subscription s WHERE s.user_no = :userId) "
 			+ "OR user_id = :userId "
-			+ "ORDER BY :postId DESC, reg_date DESC LIMIT 5")
-	public List<Post> findBySubscriptionsUserId(Long postId, Long userId);
+			+ "ORDER BY reg_date DESC LIMIT 5")
+	public List<Post> findBySubscriptionsUserId(Long userId);
 
 	@Query(nativeQuery = true,
 		value = "SELECT MIN(id) FROM Post "
@@ -45,10 +45,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	@Query(nativeQuery = true,
 		value = "SELECT * FROM Post "
-			+ "WHERE user_id IN (SELECT s.subs_user_no FROM subscription s WHERE s.user_no = :userId) "
+			+ "WHERE (user_id IN (SELECT s.subs_user_no FROM subscription s WHERE s.user_no = :userId) "
+			+ "OR user_id = :userId) "
 			+ "AND id < :postId "
-			+ "OR user_id = :userId "
 			+ "ORDER BY id DESC, reg_date DESC LIMIT 5")
 	public List<Post> findByIdAndSubsUserId(Long postId, Long userId);
+
 
 }
