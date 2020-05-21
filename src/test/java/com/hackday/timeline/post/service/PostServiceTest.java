@@ -75,7 +75,7 @@ public class PostServiceTest {
 		Mockito.when(repo.findMinIdByUserId(this.member.getUserNo()))
 			.thenReturn(this.post.getId());
 
-		Long minIdOfPosts = postService.getMinIdOfPosts(this.member.getUserNo());
+		Long minIdOfPosts = postService.getMinIdOfPosts(this.member.getUserNo()).getMinIdOfPosts();
 
 		Mockito.verify(repo).findMinIdByUserId(this.member.getUserNo());
 		assertEquals(minIdOfPosts, this.post.getId());
@@ -86,7 +86,7 @@ public class PostServiceTest {
 		Mockito.when(repo.findMinIdBySubsUserId(this.member.getUserNo()))
 			.thenReturn(this.post.getId());
 
-		Long minIdOfPosts = postService.getMinIdOfSubsPosts(this.member.getUserNo());
+		Long minIdOfPosts = postService.getMinIdOfSubsPosts(this.member.getUserNo()).getMinIdOfPosts();
 
 		Mockito.verify(repo).findMinIdBySubsUserId(this.member.getUserNo());
 		assertEquals(minIdOfPosts, this.post.getId());

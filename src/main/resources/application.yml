@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: prod
-    #active: daehwan-local
 
   mvc:
     view:
@@ -23,12 +22,8 @@ spring:
     prefix: /templates/
     suffix: .html
 
-  data:
-    redis:
-      repositories:
-        enabled: true
-
-  cache: redis
+  cache:
+    type: redis
   redis:
     host: 27.96.134.60
     port: 6379

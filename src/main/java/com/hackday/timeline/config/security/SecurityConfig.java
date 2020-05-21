@@ -22,16 +22,14 @@ import com.hackday.timeline.common.security.CustomAccessDeniedHandler;
 import com.hackday.timeline.common.security.CustomLoginSuccessHandler;
 import com.hackday.timeline.common.security.CustomLogoutSuccessHandler;
 import com.hackday.timeline.common.security.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final DataSource dataSource;
-
-	public SecurityConfig(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {

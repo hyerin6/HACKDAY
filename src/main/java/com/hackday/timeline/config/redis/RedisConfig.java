@@ -3,7 +3,6 @@ package com.hackday.timeline.config.redis;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -16,7 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class RedisConfig extends CachingConfigurerSupport {
+public class RedisConfig {
 
 	private final RedisProperties redisProperties;
 
@@ -30,7 +29,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return lettuceConnectionFactory;
 	}
 
-	@Bean(name = {"redisTemplate", "jsonRedisTemplate"})
+	@Bean
 	public RedisTemplate<String, Object> redisTemplate() {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setKeySerializer(new StringRedisSerializer());

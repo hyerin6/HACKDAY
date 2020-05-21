@@ -61,7 +61,8 @@ public class PostController {
 		model.addAttribute("insertPostDto", new InsertPostDto());
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
-		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
+		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId).getMinIdOfPosts()
+		);
 		model.addAttribute("user", member);
 
 		return "posts/myBoard";
@@ -106,7 +107,7 @@ public class PostController {
 	public String getFeeds(@PathVariable("id") Long userId, Model model) {
 		List<Post> posts = postService.getPosts(null, userId);
 
-		if (CollectionUtils.isEmpty(posts)) {
+		if (posts.isEmpty()) {
 			try {
 				model.addAttribute("user", memberService.read(userId));
 				return "posts/empty";
@@ -116,11 +117,12 @@ public class PostController {
 			}
 		}
 
-		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ? null : posts.get(posts.size() - 1).getId();
+		Long lastIdOfPosts = posts.isEmpty() ?
+			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
-		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId));
+		model.addAttribute("minIdOfPosts", postService.getMinIdOfPosts(userId).getMinIdOfPosts());
 
 		try {
 			model.addAttribute("user", memberService.read(userId));
@@ -141,13 +143,13 @@ public class PostController {
 
 		List<Post> posts = postService.getFeeds(null, userId);
 
-		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
+		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("lastIdOfPosts", lastIdOfPosts);
 		model.addAttribute("user", member);
-		model.addAttribute("minIdOfSubsPosts", postService.getMinIdOfSubsPosts(member.getUserNo()));
+		model.addAttribute("minIdOfSubsPosts", postService.getMinIdOfSubsPosts(member.getUserNo()).getMinIdOfPosts());
 
 		return "posts/timeline";
 	}

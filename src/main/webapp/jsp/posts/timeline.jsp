@@ -49,8 +49,8 @@
                                             <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
                                             <div class="timeline-body block">
                                                 <div class="timeline-header">
-                                                    <span class="username">${post.user.userName}</span>
-                                                    <span class="date pull-right text-muted">${post.regDate}</span>
+                                                    <a href="/${post.user.userNo}/feeds"><span class="username">${post.user.userName}</span>
+                                                    <span class="date pull-right text-muted">${post.regDate}</span></a>
                                                 </div>
                                                 <div class="center-img">
                                                     <div class="timeline-content max-small">
@@ -111,8 +111,8 @@
                                     "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp</a></div>\n" +
                                     "<div class=\"timeline-body block\">\n" +
                                     "<div class=\"timeline-header\">\n" +
-                                    "<span class=\"username\">" + data.posts[i].user.userName + "</span>\n" +
-                                    "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
+                                    "<a href=\"/" + data.posts[i].user.userNo + "/feeds\"><span class=\"username\">" + data.posts[i].user.userName + "</span>\n" +
+                                    "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span></a>\n" +
                                     "</div>\n" +
                                     "<div class=\"center-img\">\n" +
                                     "<div class=\"timeline-content max-small\">\n" +
