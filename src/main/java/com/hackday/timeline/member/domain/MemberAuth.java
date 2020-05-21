@@ -1,5 +1,6 @@
 package com.hackday.timeline.member.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "member_auth")
-public class MemberAuth {
+public class MemberAuth implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

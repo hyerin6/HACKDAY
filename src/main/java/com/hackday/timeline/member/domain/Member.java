@@ -1,5 +1,6 @@
 package com.hackday.timeline.member.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ import lombok.ToString;
 @Entity
 @ApiModel(description = "유저")
 @Table(name = "member")
-public class Member {
+public class Member implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

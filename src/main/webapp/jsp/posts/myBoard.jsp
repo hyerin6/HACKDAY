@@ -1,4 +1,3 @@
-  
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -17,73 +16,75 @@
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
-<div class="row">
-<div class="col-md-12">
-<div id="content" class="content content-full-width">
-<div class="profile">
-<div class="profile-header">
-<div class="profile-header-cover"></div>
-<div class="profile-header-content">
-    <div class="profile-header-img">
-        <img src="https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg">
-    </div>
-    <div class="profile-header-info">
-        <h4 class="m-t-10 m-b-5">${user.userName}</h4>
-    </div>
-</div>
-<div class="main_nav tab_wrap">
-    <ul class="profile-header-tab nav nav-tabs center tab_menu_container">
-        <li class="nav-item tab_menu_btn on active show"><a href="/posts" target="_self" class="tab_menu_btn1 tab_menu_btn1 on active show" >MY POSTS</a></li>
-        <li class="nav-item tab_menu_btn"><a href="/timeline/feeds" target="_self" class="tab_menu_btn2" >TIME LINE</a></li>
-        <li class="nav-item tab_menu_btn"><a href="/" target="_self" class="tab_menu_btn3" >HOME</a></li>
-    </ul>
-</div>
-</div>
-</div>
-<div class="tab_box_container tab_box_container">
-<div class="profile-content">
-<div class="tab-content p-0">
-<div class="tab-pane fade active show tab_box1 tab_box on big-box" id="profile-posts">
-    <ul class="timeline posts">
-        <li>
-            <div class="timeline-body" style="padding-bottom: 10px;">
-                <div class="form-group">
-                    <div class="panel-body timeline-comment-box" style="padding-top: 30px;">
-                        <form:form method="post" modelAttribute="insertPostDto" action="/posts" enctype="multipart/form-data">
-                            <form:textarea path="content" class="form-control" rows="4" placeholder="What are you thinking?" />
-                            <form:errors path="content" class="error" />
-                            <div class="mar-top clearfix">
-                                <div class="form-inline form-group" style="padding-top: 15px;">
-                                    <form:label path="image" cssStyle="margin-left: 10px;">Image : </form:label>
-                                    <div class="col-sm-10">
-                                        <form:input type="file" class="form-control" placeholder="IMAGE" path="image" cssStyle="margin-left: 5px; padding-right: 10px; margin-right: 25px;"/>
-                                        <form:button class="btn-gradient blue mini" type="submit" cssStyle="float: right; margin-top: 2px;">Share</form:button>
-                                    </div>
-                                </div>
-                        </form:form>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="content" class="content content-full-width">
+                <div class="profile">
+                    <div class="profile-header">
+                        <div class="profile-header-cover"></div>
+                        <div class="profile-header-content">
+                            <div class="profile-header-img">
+                                <img src="https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg">
+                            </div>
+                            <div class="profile-header-info">
+                                <h4 class="m-t-10 m-b-5">${user.userName}</h4>
+                            </div>
+                        </div>
+                        <div class="main_nav tab_wrap">
+                            <ul class="profile-header-tab nav nav-tabs center tab_menu_container">
+                                <li class="nav-item tab_menu_btn on active show"><a href="/posts" target="_self" class="tab_menu_btn1 tab_menu_btn1 on active show" >MY POSTS</a></li>
+                                <li class="nav-item tab_menu_btn"><a href="/timeline/feeds" target="_self" class="tab_menu_btn2" >TIME LINE</a></li>
+                                <li class="nav-item tab_menu_btn"><a href="/" target="_self" class="tab_menu_btn3" >HOME</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </li><br/>
-        <c:forEach var="post" items="${ posts }" varStatus="vs">
-        <li>
-            <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
-            <div class="timeline-body block">
-                <div class="timeline-header">
-                    <span class="username">${user.userName}</span>
-                    <span class="date pull-right text-muted">${post.regDate}</span>
-                </div>
-                <div class="timeline-content">
-                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
-                </div><br/>
-                <div class="timeline-content">
-                    <p class="post">${post.content}</p>
-                </div>
-                <div class="timeline-footer"></div>
-                <div>
-                    <div class="modify-button">
-                        <div class="input-group">
+                <div class="tab_box_container tab_box_container">
+                    <div class="profile-content">
+                        <div class="tab-content p-0">
+                            <div class="tab-pane fade active show tab_box1 tab_box on big-box" id="profile-posts">
+                                <ul class="timeline posts">
+                                    <li>
+                                        <div class="timeline-body" style="padding-bottom: 10px;">
+                                            <div class="form-group">
+                                                <div class="panel-body timeline-comment-box" style="padding-top: 30px;">
+                                                    <form:form method="post" modelAttribute="insertPostDto" action="/posts" enctype="multipart/form-data">
+                                                    <form:textarea path="content" class="form-control" rows="4" placeholder="What are you thinking?" />
+                                                    <form:errors path="content" class="error" />
+                                                    <div class="mar-top clearfix">
+                                                        <div class="form-inline form-group" style="padding-top: 15px;">
+                                                            <form:label path="image" cssStyle="margin-left: 10px;">Image : </form:label>
+                                                            <div class="col-sm-10">
+                                                                <form:input type="file" class="form-control" placeholder="IMAGE" path="image" cssStyle="margin-left: 5px; padding-right: 10px; margin-right: 25px;"/>
+                                                                <form:button class="btn-gradient blue mini" type="submit" cssStyle="float: right; margin-top: 2px;">Share</form:button>
+                                                            </div>
+                                                        </div>
+                                                        </form:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li><br/>
+                                    <c:forEach var="post" items="${ posts }" varStatus="vs">
+                                        <li>
+                                            <div class="timeline-icon"><a href="javascript:;">&nbsp</a></div>
+                                            <div class="timeline-body block">
+                                                <div class="timeline-header">
+                                                    <span class="username">${user.userName}</span>
+                                                    <span class="date pull-right text-muted">${post.regDate}</span>
+                                                </div>
+                                                <div class="center-img">
+                                                <div class="timeline-content max-small">
+                                                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
+                                                </div><br/>
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <p class="post">${post.content}</p>
+                                                </div>
+                                                <div class="timeline-footer"></div>
+                                                <div>
+                                                    <div class="modify-button">
+                                                        <div class="input-group">
                             <span class="input-group-btn p-l-10">
                                 <button class="btn-gradient blue mini" type="button" id="viewDetailButton${vs.index}" data-target="#layerpop${vs.index}" data-toggle="modal" style="margin-left: 15px;">update</button>
                                 <form method="PATCH">
@@ -112,23 +113,23 @@
                                     </div>
                                 </form>
                             </span>
-                            <span class="input-group-btn p-l-10">
+                                                            <span class="input-group-btn p-l-10">
                                 <a href="/posts/${post.id}" class="btn-gradient blue mini" style="margin-left: 15px;">delete</a>
                             </span>
+                                                        </div>
+                                                    </div>
+                                                </div><br/><br/>
+                                            </div>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div><br/><br/>
+                </div>
             </div>
-        </li>
-        </c:forEach>
-    </ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+        </div>
+    </div>
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -143,7 +144,7 @@
         var window_height = window.innerHeight;
         if($(window).scrollTop() > 0 && !isLoading && lastIdOfPosts > minIdOfPosts) {
             if ($(window).scrollTop() == ($(document).height() - window_height)) {
-                isLoading = true; // 로딩 시작
+                isLoading = true;
                 $.ajax({
                     type: 'POST',
                     url: '/api/posts',
@@ -167,14 +168,14 @@
                                     "<div class=\"timeline-icon\"><a href=\"javascript:;\">&nbsp</a></div>\n" +
                                     "<div class=\"timeline-body block\">\n" +
                                     "<div class=\"timeline-header\">\n" +
-                                    "<span class=\"username\">\n" +
-                                    "<p class=\"profile-link\">" + "${user.userName}" + "</p>\n" +
-                                    "</span>\n" +
+                                    "<span class=\"username\">" + "${user.userName}" + "</span>\n" +
                                     "<span class=\"date pull-right text-muted\">" + data.posts[i].regDate + "</span>\n" +
                                     "</div>\n" +
-                                    "<div class=\"timeline-content\">\n" +
-                                    "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/litebook/profile.jpeg'\">\n" +
+                                    "<div class=\"center-img\">\n" +
+                                    "<div class=\"timeline-content max-small\">\n" +
+                                    "<img class=\"max-small\" src=\"" + imagePath + "\" alt=\"\" onerror=\"this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'\">\n" +
                                     "</div><br/>\n" +
+                                    "</div>" +
                                     "<div class=\"timeline-content\">\n" +
                                     "<p class=\"post\">" + data.posts[i].content + "</p>\n" +
                                     "</div>\n" +

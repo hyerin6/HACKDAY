@@ -2,6 +2,7 @@ package com.hackday.timeline.post.controller;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,7 @@ public class PostApiController {
 
 		List<Post> posts = postService.getPosts(getPostsRequest.getLastIdOfPosts(), userId);
 
-		Long lastIdOfPosts = posts.isEmpty() ?
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
 
 		return PostsResponse.builder()
@@ -60,10 +61,11 @@ public class PostApiController {
 	@ApiOperation(value = "다른 사용자가 작성한 게시글 조회", notes = "커서기반으로 5개의 게시글을 조회합니다.")
 	@PostMapping("/api/feeds")
 	public @ResponseBody PostsResponse getPosts(@RequestBody GetFriendPostsRequest getFriendPostsRequest) {
-		List<Post> posts = postService.getPosts(getFriendPostsRequest.getLastIdOfPosts(), getFriendPostsRequest.getUserId());
+		List<Post> posts = postService.getSubsPosts(getFriendPostsRequest.getLastIdOfPosts(), getFriendPostsRequest.getUserId());
 
-		Long lastIdOfPosts = posts.isEmpty() ?
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
+
 
 		return PostsResponse.builder()
 			.posts(posts)
@@ -90,9 +92,8 @@ public class PostApiController {
 		Member member = customUser.getMember();
 		Long userId = member.getUserNo();
 
-		List<Post> posts = postService.getTimelineFeeds(getPostsRequest.getLastIdOfPosts(), userId);
-
-		Long lastIdOfPosts = posts.isEmpty() ?
+		List<Post> posts = postService.getFeeds(getPostsRequest.getLastIdOfPosts(), userId);
+		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
 			null : posts.get(posts.size() - 1).getId();
 
 		return PostsResponse.builder()
