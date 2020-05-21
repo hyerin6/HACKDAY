@@ -41,8 +41,6 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true),
-		@CacheEvict(value = "subsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true)})
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
@@ -62,15 +60,16 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true), @CacheEvict(value = "subsPosts", allEntries = true) })
 	public void modifyPost(InsertPostDto insertPostDto, Long postId, Member member) {
 		Post post = postRepository.findById(postId).get();
 		post.setContent(insertPostDto.getContent());
 	}
 
 	@Override
-	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true),
-		@CacheEvict(value = "subsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true) })
+	@Caching(evict = {
+		@CacheEvict(value = "minIdOfPosts", key = "'myMinIdOfPosts-' + #userId"),
+		@CacheEvict(value = "minIdOfSubsPosts", key = "'subsMinIdOfPosts-' + #userId")
+	})
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
 
@@ -83,7 +82,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional(readOnly=true)
-	@Cacheable(value = "posts", key = "'myFeeds-' + #id + '-' + #userId", unless = "#id == null")
 	public List<Post> getPosts(Long id, Long userId) {
 		return id == null ?
 			this.postRepository.findByUserId(userId) :

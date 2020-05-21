@@ -30,5 +30,4 @@ public interface PostService {
 
 	public List<Post> getFeeds(Long postId, Long userId);
 
-
 }
