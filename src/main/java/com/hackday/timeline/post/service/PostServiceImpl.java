@@ -41,6 +41,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true),
+		@CacheEvict(value = "subsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true)})
 	public Post insertPost(InsertPostDto insertPostDto, Member member) throws IOException {
 		Post post = insertPostDto.toEntity(member, null);
 
@@ -60,6 +62,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true), @CacheEvict(value = "subsPosts", allEntries = true) })
 	public void modifyPost(InsertPostDto insertPostDto, Long postId, Member member) {
 		Post post = postRepository.findById(postId).get();
 		post.setContent(insertPostDto.getContent());
@@ -67,7 +70,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Caching(evict = { @CacheEvict(value = "timeline", allEntries = true), @CacheEvict(value = "posts", allEntries = true),
-		@CacheEvict(value = "subsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true)})
+		@CacheEvict(value = "subsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true), @CacheEvict(value = "minIdOfSubsPosts", allEntries = true) })
 	public void deletePost(Long postId, Long userId) {
 		Post post = postRepository.findOneById(postId);
 
