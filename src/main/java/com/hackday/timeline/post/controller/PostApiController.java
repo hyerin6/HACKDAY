@@ -2,7 +2,6 @@ package com.hackday.timeline.post.controller;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +48,7 @@ public class PostApiController {
 
 		List<Post> posts = postService.getPosts(getPostsRequest.getLastIdOfPosts(), userId);
 
-		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
+		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
 
 		return PostsResponse.builder()
@@ -63,7 +62,7 @@ public class PostApiController {
 	public @ResponseBody PostsResponse getPosts(@RequestBody GetFriendPostsRequest getFriendPostsRequest) {
 		List<Post> posts = postService.getSubsPosts(getFriendPostsRequest.getLastIdOfPosts(), getFriendPostsRequest.getUserId());
 
-		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
+		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
 
 
@@ -93,7 +92,7 @@ public class PostApiController {
 		Long userId = member.getUserNo();
 
 		List<Post> posts = postService.getFeeds(getPostsRequest.getLastIdOfPosts(), userId);
-		Long lastIdOfPosts = CollectionUtils.isEmpty(posts) ?
+		Long lastIdOfPosts = posts.isEmpty() ?
 			null : posts.get(posts.size() - 1).getId();
 
 		return PostsResponse.builder()

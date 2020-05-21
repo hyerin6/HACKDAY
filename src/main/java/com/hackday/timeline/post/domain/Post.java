@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hackday.timeline.image.domain.Image;
 import com.hackday.timeline.member.domain.Member;
 import io.swagger.annotations.ApiModel;
@@ -33,7 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel(description = "게시글")
-public class Post implements Serializable {
+public class Post implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

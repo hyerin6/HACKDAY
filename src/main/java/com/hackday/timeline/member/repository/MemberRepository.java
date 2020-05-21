@@ -13,9 +13,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	public List<Member> findByUserId(String username);
 
 	@Query(nativeQuery = true, value = "SELECT EXISTS ("
-		+ "SELECT m.user_Id "
+		+ "SELECT m.userId "
 		+ "FROM member m "
-		+ "WHERE m.user_Id=?1"
+		+ "WHERE m.userId=?1"
 		+ ") AS SUCCESS")
 	public int userIdCheck(String userId) throws Exception;
 

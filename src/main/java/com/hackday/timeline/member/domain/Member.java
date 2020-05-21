@@ -21,6 +21,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -60,6 +61,7 @@ public class Member implements Serializable {
 	@UpdateTimestamp
 	private Date upd_date;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_no")
 	private List<MemberAuth> authList = new ArrayList<>();
