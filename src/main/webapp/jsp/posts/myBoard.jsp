@@ -56,7 +56,9 @@
                                                             <form:label path="image" cssStyle="margin-left: 10px;">Image : </form:label>
                                                             <div class="col-sm-10">
                                                                 <form:input type="file" class="form-control" placeholder="IMAGE" path="image" cssStyle="margin-left: 5px; padding-right: 10px; margin-right: 25px;"/>
-                                                                <form:button class="btn-gradient blue mini" type="submit" onClick="window.location.reload()" cssStyle="float: right; margin-top: 2px;">Share</form:button>
+                                                                <span id="share-bnt">
+                                                                <form:button class="btn-gradient blue mini"  type="submit" cssStyle="float: right; margin-top: 2px;">Share</form:button>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         </form:form>
@@ -74,9 +76,9 @@
                                                     <span class="date pull-right text-muted">${post.regDate}</span>
                                                 </div>
                                                 <div class="center-img">
-                                                <div class="timeline-content max-small">
-                                                    <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
-                                                </div><br/>
+                                                    <div class="timeline-content max-small">
+                                                        <img class="max-small" src="${post.image.filePath}" alt="" onerror="this.src='https://litebook-images.s3.ap-northeast-2.amazonaws.com/timeline-images/b.jpeg'">
+                                                    </div><br/>
                                                 </div>
                                                 <div class="timeline-content">
                                                     <p class="post">${post.content}</p>
@@ -113,8 +115,8 @@
                                     </div>
                                 </form>
                             </span>
-                                                            <span class="input-group-btn p-l-10" onClick="window.location.reload()">
-                                <a href="/posts/${post.id}" class="btn-gradient blue mini" style="margin-left: 15px;">delete</a>
+                                                            <span class="input-group-btn p-l-10">
+                                <a href="/posts/${post.id}" class="btn-gradient blue mini" onClick="window.location.reload()" style="margin-left: 15px;">delete</a>
                             </span>
                                                         </div>
                                                     </div>
@@ -130,6 +132,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -203,7 +206,7 @@
                                     "<textarea id=\"mainText" + count+i + "\" path=\"content\" class=\"form-control\" rows=\"4\">" + data.posts[i].content + "</textarea><br/>\n" +
                                     "</div>\n" +
                                     "<div class=\"modal-footer\" id=\"layerpop" + count+i + "\">\n" +
-                                    "<input id=\"layerpop" + count+i + "\" class=\"btn-gradient blue mini\" type=\"button\" data-dismiss=\"modal\" onClick=\"update_btn(" + data.posts[i].id + ", " + "$('#mainText'.concat(" + count+i + ")).val());" + "\" value=\"완료\" onClick=\"window.location.reload()\" style=\"float: right; margin-top: 15px;\"/>" +
+                                    "<input id=\"layerpop" + count+i + "\" class=\"btn-gradient blue mini\" type=\"button\" data-dismiss=\"modal\" onClick=\"update_btn(" + data.posts[i].id + ", " + "$('#mainText'.concat(" + count+i + ")).val());" + "\" value=\"완료\" style=\"float: right; margin-top: 15px;\"/>" +
                                     "<button type=\"button\" class=\"btn-gradient blue mini\" data-dismiss=\"modal\" style=\"margin-top: 14px; margin-left: 10px;\">취소</button>\n" +
                                     "</div>\n" +
                                     "</div>\n" +
@@ -212,7 +215,7 @@
                                     "</form>\n" +
                                     "</span>\n" +
                                     "<span class=\"input-group-btn p-l-10\">\n" +
-                                    "<a href=\"/posts/" + data.posts[i].id + "\" class=\"btn-gradient blue mini\" onClick=\"window.location.reload()\" style=\"margin-left: 15px;\">delete</a>\n" +
+                                    "<a href=\"/posts/" + data.posts[i].id + "\" class=\"btn-gradient blue mini\" style=\"margin-left: 15px;\">delete</a>\n" +
                                     "</span>\n" +
                                     "</div>\n" +
                                     "</div>\n" +
@@ -254,7 +257,8 @@
                 location.href = location.href;
             }
         });
-    }
+    };
+
 </script>
 </body>
 </html>
