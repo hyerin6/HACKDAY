@@ -32,3 +32,5 @@ build/
 
 ### OS Files ###
 .DS_Store
+
+application.yml
